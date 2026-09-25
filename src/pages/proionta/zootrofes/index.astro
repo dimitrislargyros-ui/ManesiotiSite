@@ -123,18 +123,27 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
             <div class="product-body">
               {p.brand && <p class="product-brand">{p.brand}</p>}
               <p class="product-name">{p.name}</p>
-              <button
-                type="button"
-                class="cart-toggle"
-                data-cart-toggle
+              <div
+                class="cart-control"
+                data-cart-control
                 data-code={p.code}
                 data-name={p.name}
                 data-brand={p.brand ?? ''}
               >
-                <svg class="icon-add" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                <svg class="icon-added" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <span class="cart-toggle-label">Προσθήκη</span>
-              </button>
+                <button type="button" class="cart-add" data-cart-add>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  <span>Προσθήκη</span>
+                </button>
+                <div class="cart-stepper" data-cart-stepper hidden>
+                  <button type="button" class="stepper-btn" data-cart-dec aria-label="Αφαίρεση τεμαχίου">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </button>
+                  <span class="stepper-qty" data-cart-qty>1</span>
+                  <button type="button" class="stepper-btn" data-cart-inc aria-label="Προσθήκη τεμαχίου">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </article>
         ))}
@@ -290,13 +299,13 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
   }
   .product-name { font-size: var(--text-label); line-height: 1.35; }
 
-  .cart-toggle {
+  .cart-control { margin-top: var(--s-12); }
+  .cart-add {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--s-8);
     width: 100%;
-    margin-top: var(--s-12);
     padding: var(--s-8) var(--s-12);
     border: 1px solid var(--tin-300);
     border-radius: var(--radius-button);
@@ -308,15 +317,40 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
       border-color var(--duration-hover) var(--ease-out),
       color var(--duration-hover) var(--ease-out);
   }
-  .cart-toggle:hover { border-color: var(--olive-700); color: var(--olive-700); }
-  .cart-toggle .icon-added { display: none; }
-  .cart-toggle[data-in-cart] {
+  .cart-add:hover { border-color: var(--olive-700); color: var(--olive-700); }
+  .cart-add[hidden] { display: none; }
+
+  .cart-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
     background: var(--olive-100);
-    border-color: var(--olive-100);
+    border: 1px solid var(--olive-100);
+    border-radius: var(--radius-button);
+    padding: var(--s-4);
+  }
+  .cart-stepper[hidden] { display: none; }
+  .stepper-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: var(--radius-button);
+    background: var(--surface);
+    color: var(--olive-800);
+    transition: background-color var(--duration-hover) var(--ease-out);
+  }
+  .stepper-btn:hover { background: var(--olive-700); color: var(--paper); }
+  .stepper-qty {
+    min-width: 2ch;
+    text-align: center;
+    font-size: var(--text-small);
+    font-weight: 700;
     color: var(--olive-800);
   }
-  .cart-toggle[data-in-cart] .icon-add { display: none; }
-  .cart-toggle[data-in-cart] .icon-added { display: block; }
 
   /* Filters panel: static sidebar on desktop, off-canvas drawer on mobile */
   .filters-panel {
@@ -452,7 +486,7 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
 </style>
 
 <script>
-  import { isInCart, toggleCart, CART_EVENT } from '../../../lib/cart';
+  import { getQty, addToCart, changeQty, CART_EVENT } from '../../../lib/cart';
 
   type Facet = 'brand' | 'animal' | 'size';
 
@@ -640,29 +674,41 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
   filtersCloseBtn?.addEventListener('click', closeFilters);
   filtersOverlay?.addEventListener('click', closeFilters);
 
-  const cartButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-cart-toggle]'));
+  const cartControls = Array.from(document.querySelectorAll<HTMLElement>('[data-cart-control]'));
 
-  function syncCartButton(btn: HTMLButtonElement) {
-    const inCart = isInCart(btn.dataset.code ?? '');
-    btn.toggleAttribute('data-in-cart', inCart);
-    const label = btn.querySelector('.cart-toggle-label');
-    if (label) label.textContent = inCart ? 'Προστέθηκε' : 'Προσθήκη';
+  function syncControl(el: HTMLElement) {
+    const qty = getQty(el.dataset.code ?? '');
+    const addBtn = el.querySelector<HTMLElement>('[data-cart-add]');
+    const stepper = el.querySelector<HTMLElement>('[data-cart-stepper]');
+    const qtyEl = el.querySelector('[data-cart-qty]');
+    if (addBtn) addBtn.hidden = qty > 0;
+    if (stepper) stepper.hidden = qty === 0;
+    if (qtyEl) qtyEl.textContent = String(qty);
   }
 
-  for (const btn of cartButtons) {
-    syncCartButton(btn);
-    btn.addEventListener('click', () => {
-      toggleCart({
-        code: btn.dataset.code ?? '',
-        name: btn.dataset.name ?? '',
-        brand: btn.dataset.brand || null,
-      });
-      syncCartButton(btn);
+  for (const el of cartControls) {
+    syncControl(el);
+    const item = {
+      code: el.dataset.code ?? '',
+      name: el.dataset.name ?? '',
+      brand: el.dataset.brand || null,
+    };
+    el.querySelector('[data-cart-add]')?.addEventListener('click', () => {
+      addToCart(item, 1);
+      syncControl(el);
+    });
+    el.querySelector('[data-cart-inc]')?.addEventListener('click', () => {
+      changeQty(item, 1);
+      syncControl(el);
+    });
+    el.querySelector('[data-cart-dec]')?.addEventListener('click', () => {
+      changeQty(item, -1);
+      syncControl(el);
     });
   }
 
   window.addEventListener(CART_EVENT, () => {
-    for (const btn of cartButtons) syncCartButton(btn);
+    for (const el of cartControls) syncControl(el);
   });
 
   render();

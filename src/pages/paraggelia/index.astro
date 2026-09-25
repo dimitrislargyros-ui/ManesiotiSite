@@ -129,19 +129,49 @@ import Layout from '../../layouts/Layout.astro';
   .selected-block { margin-top: var(--s-16); }
   .detail-label { font-size: var(--text-small); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--tin-500); margin-bottom: var(--s-8); }
   .empty-note { color: var(--tin-500); font-size: var(--text-small); }
-  .selected-list { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-8); }
+  .selected-list { list-style: none; display: flex; flex-direction: column; gap: var(--s-8); }
   .selected-list li {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: var(--s-8);
+    gap: var(--s-12);
     background: var(--olive-100);
     color: var(--olive-800);
-    border-radius: 999px;
-    padding: var(--s-4) var(--s-8) var(--s-4) var(--s-12);
+    border-radius: var(--radius-input);
+    padding: var(--s-8) var(--s-8) var(--s-8) var(--s-12);
     font-size: var(--text-small);
   }
-  .selected-list button { background: none; border: none; color: inherit; opacity: 0.7; padding: var(--s-4); }
-  .selected-list button:hover { opacity: 1; }
+  .selected-name { flex: 1; min-width: 0; }
+  .selected-stepper {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    background: var(--surface);
+    border-radius: var(--radius-button);
+    padding: var(--s-4);
+    flex-shrink: 0;
+  }
+  .selected-stepper button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: none;
+    border: none;
+    border-radius: var(--radius-button);
+    color: var(--olive-800);
+  }
+  .selected-stepper button:hover { background: var(--olive-100); }
+  .selected-stepper span { min-width: 1.5ch; text-align: center; font-weight: 700; }
+  .selected-remove {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.7;
+    padding: var(--s-4);
+  }
+  .selected-remove:hover { opacity: 1; }
 
   textarea, input[type="text"], input[type="tel"], input[type="email"] {
     width: 100%;
@@ -179,7 +209,7 @@ import Layout from '../../layouts/Layout.astro';
 
 <script>
   import { products } from '../../data/zootrofes-products';
-  import { getCart, addToCart, removeFromCart, clearCart, CART_EVENT } from '../../lib/cart';
+  import { getCart, addToCart, changeQty, removeFromCart, clearCart, CART_EVENT } from '../../lib/cart';
 
   const searchInput = document.querySelector<HTMLInputElement>('[data-product-search]');
   const resultsList = document.querySelector<HTMLElement>('[data-search-results]');
@@ -197,15 +227,41 @@ import Layout from '../../layouts/Layout.astro';
     selectedEmpty.hidden = selected.length > 0;
     for (const item of selected) {
       const li = document.createElement('li');
-      li.innerHTML = `<span>${item.name}</span>`;
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.setAttribute('aria-label', `Αφαίρεση ${item.name}`);
-      btn.innerHTML = '×';
-      btn.addEventListener('click', () => {
-        removeFromCart(item.code);
-      });
-      li.appendChild(btn);
+
+      const name = document.createElement('span');
+      name.className = 'selected-name';
+      name.textContent = item.brand ? `${item.name} — ${item.brand}` : item.name;
+      li.appendChild(name);
+
+      const stepper = document.createElement('span');
+      stepper.className = 'selected-stepper';
+
+      const dec = document.createElement('button');
+      dec.type = 'button';
+      dec.setAttribute('aria-label', `Λιγότερα ${item.name}`);
+      dec.textContent = '−';
+      dec.addEventListener('click', () => changeQty(item, -1));
+
+      const qty = document.createElement('span');
+      qty.textContent = String(item.qty);
+
+      const inc = document.createElement('button');
+      inc.type = 'button';
+      inc.setAttribute('aria-label', `Περισσότερα ${item.name}`);
+      inc.textContent = '+';
+      inc.addEventListener('click', () => changeQty(item, 1));
+
+      stepper.append(dec, qty, inc);
+      li.appendChild(stepper);
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'selected-remove';
+      remove.setAttribute('aria-label', `Αφαίρεση ${item.name}`);
+      remove.innerHTML = '×';
+      remove.addEventListener('click', () => removeFromCart(item.code));
+      li.appendChild(remove);
+
       selectedList.appendChild(li);
     }
   }
