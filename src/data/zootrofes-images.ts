@@ -34,18 +34,13 @@ const PRODUCT_IMAGES: Partial<Record<string, string>> = {
   '880': '/images/products/880.jpg',
 };
 
-// Real (not stock) fallback photos per animal type, used whenever a product
-// has no confidently-matched individual photo above.
-const ANIMAL_FALLBACK: Record<Animal, string> = {
-  dog: '/images/products/767.jpg',
-  cat: '/images/products/716.jpg',
-  bird: '/images/products/880.jpg',
-  small_animal: '/images/products/fallback-small-animal.png',
-  accessories: '/images/products/fallback-accessories.jpg',
-};
-
-export function imageFor(product: Product): string {
-  return PRODUCT_IMAGES[product.code] ?? ANIMAL_FALLBACK[product.animal];
+// Returns a real photo only when the product was confidently matched above.
+// Deliberately does NOT fall back to another specific product's real photo —
+// e.g. showing a real "Fluffy" bag under a "Petnature" product name would be
+// factually wrong, not just generic. Unmatched products render a neutral
+// on-brand icon placeholder instead (see ProductThumb in the catalog page).
+export function imageFor(product: Product): string | null {
+  return PRODUCT_IMAGES[product.code] ?? null;
 }
 
 export const ANIMAL_LABELS: Record<Animal, string> = {
