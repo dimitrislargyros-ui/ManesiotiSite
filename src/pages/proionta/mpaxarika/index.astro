@@ -1,0 +1,69 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const groups = [
+  { title: 'Πιπέρια', items: ['Μαύρο πιπέρι', 'Λευκό πιπέρι', 'Κόκκινο πιπέρι', 'Τσίλι', 'Πράσινο πιπέρι', 'Ροζ πιπέρι'] },
+  { title: 'Αρωματικά', items: ['Γλυκάνισος', 'Γαρύφαλλα', 'Μπαχάρι', 'Κύμινο', 'Κάρρυ', 'Κανέλλα ξύλο 8cm', 'Λιβάνι χονδρό'] },
+  { title: 'Λοιπά', items: ['Τσάι κανάρυ 1kg', 'Κιτρικό οξύ'] },
+];
+---
+<Layout title="Μπαχαρικά" description="Εισαγωγές μπαχαρικών από πιστοποιημένους προμηθευτές. Χονδρική για βιομηχανίες τροφίμων, συσκευαστήρια και καταστήματα.">
+  <section class="intro container">
+    <p class="eyebrow reveal">Προϊόντα</p>
+    <h1 class="reveal">Μπαχαρικά</h1>
+    <p class="reveal">
+      Εισαγωγές από πιστοποιημένους προμηθευτές. Αποθήκευση σε κατάλληλες συνθήκες υγρασίας και θερμοκρασίας στις
+      αποθήκες μας στον Πειραιά. Εξυπηρετούμε βιομηχανίες τροφίμων, συσκευαστήρια και καταστήματα.
+    </p>
+  </section>
+
+  <section class="container groups">
+    <p class="eyebrow reveal">Διαθέσιμα είδη</p>
+    <div class="groups-grid">
+      {groups.map((g) => (
+        <div class="group-card reveal">
+          <h2>{g.title}</h2>
+          <ul>
+            {g.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container quote-cta reveal">
+    <h2>Ζητήστε προσφορά</h2>
+    <p>
+      Για τιμές και διαθεσιμότητα, επικοινωνήστε μαζί μας τηλεφωνικά ή μέσω της φόρμας. Διαθέτουμε επίσης ατομική
+      συσκευασία τσαγιού καναρίου (1 kg).
+    </p>
+    <div class="quote-cta-actions">
+      <a href="/paraggelia/" class="btn btn-primary">Παραγγελία</a>
+      <a href="tel:+302104122132" class="hero-link">210 412 2132</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-block: var(--s-64) var(--s-32); max-width: 680px; }
+  .intro h1 { font-size: var(--text-h2); margin-block: var(--s-8) var(--s-12); }
+  .intro p { color: var(--tin-700); }
+
+  .groups { padding-block: var(--s-32) var(--s-64); }
+  .groups-grid { display: grid; gap: var(--s-16); margin-top: var(--s-24); }
+  .group-card { border: 1px solid var(--tin-200); border-radius: var(--radius-input); padding: var(--s-24); }
+  .group-card h2 { font-size: var(--text-h3); margin-bottom: var(--s-12); }
+  .group-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s-8); }
+  .group-card li { font-size: var(--text-label); color: var(--tin-700); padding-bottom: var(--s-8); border-bottom: 1px solid var(--tin-100); }
+  .group-card li:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .quote-cta { border-top: 1px solid var(--tin-200); padding-block: var(--s-48); max-width: 640px; }
+  .quote-cta h2 { font-size: var(--text-h3); margin-bottom: var(--s-12); }
+  .quote-cta p { color: var(--tin-700); margin-bottom: var(--s-24); }
+  .quote-cta-actions { display: flex; align-items: center; gap: var(--s-24); }
+  .hero-link { font-weight: 600; color: var(--olive-700); }
+
+  @media (width >= 700px) {
+    .groups-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

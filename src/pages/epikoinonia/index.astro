@@ -1,0 +1,100 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Επικοινωνία" description="Βρισκόμαστε στον Πειραιά από το 1919. Επισκεφτείτε μας ή επικοινωνήστε τηλεφωνικά.">
+  <section class="intro container">
+    <h1 class="reveal">Επικοινωνία</h1>
+    <p class="reveal">Βρισκόμαστε στον Πειραιά από το 1919. Επισκεφτείτε μας ή επικοινωνήστε τηλεφωνικά.</p>
+  </section>
+
+  <section class="container details-grid">
+    <div class="details-card reveal">
+      <h2>Στοιχεία επικοινωνίας</h2>
+
+      <div class="detail-block">
+        <p class="detail-label">Διεύθυνση</p>
+        <p>Αδριανού 11</p>
+        <p>185 35 Πειραιάς</p>
+        <a class="map-link" href="https://www.google.com/maps/search/?api=1&query=Αδριανού+11+Πειραιάς" target="_blank" rel="noopener">
+          Άνοιγμα σε Google Maps <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="detail-block">
+        <p class="detail-label">Τηλέφωνα</p>
+        <p>Παραγγελίες: <a href="tel:+302104122132">210 412 2132</a></p>
+        <p>Γενικά: <a href="tel:+302104175068">210 417 5068</a></p>
+        <p>Κινητό: <a href="tel:+306981904679">698 190 46 79</a></p>
+      </div>
+
+      <div class="detail-block">
+        <p class="detail-label">Email</p>
+        <p><a href="mailto:info@manesiotis.gr">info@manesiotis.gr</a></p>
+      </div>
+
+      <div class="detail-block">
+        <p class="detail-label">Ώρες λειτουργίας</p>
+        <p>Δευτέρα – Παρασκευή: 08:00 – 17:00</p>
+        <p>Σάββατο – Κυριακή: Κλειστά</p>
+      </div>
+    </div>
+
+    <div class="order-card reveal">
+      <h2>Ετοιμάστε παραγγελία</h2>
+      <p>Χρησιμοποιήστε τη φόρμα παραγγελίας μας για γρήγορη και εύκολη αποστολή του αιτήματός σας.</p>
+      <a href="/paraggelia/" class="btn btn-primary">Φόρμα παραγγελίας</a>
+    </div>
+  </section>
+
+  <section class="container access-section reveal">
+    <h2>Οδηγίες πρόσβασης</h2>
+    <div class="access-grid">
+      <div>
+        <p class="detail-label">ΜΜΜ</p>
+        <p>Μετρό γραμμή 1, στάση Πειραιάς — 5 λεπτά με τα πόδια</p>
+      </div>
+      <div>
+        <p class="detail-label">Αυτοκίνητο</p>
+        <p>Χώρος στάθμευσης στην οδό Αδριανού και γύρω περιοχή</p>
+      </div>
+      <div>
+        <p class="detail-label">Λιμάνι</p>
+        <p>10 λεπτά με τα πόδια από το κεντρικό λιμάνι Πειραιά</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-block: var(--s-64) var(--s-32); max-width: 680px; }
+  .intro h1 { font-size: var(--text-h2); margin-bottom: var(--s-12); }
+  .intro p { color: var(--tin-700); }
+
+  .details-grid { display: grid; gap: var(--s-16); padding-bottom: var(--s-48); }
+  .details-card, .order-card {
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    padding: var(--s-32) var(--s-24);
+  }
+  .details-card h2, .order-card h2 { font-size: var(--text-h3); margin-bottom: var(--s-20); }
+  .detail-block { margin-bottom: var(--s-20); }
+  .detail-block:last-child { margin-bottom: 0; }
+  .detail-label { font-size: var(--text-small); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--tin-500); margin-bottom: var(--s-4); }
+  .detail-block a:hover { color: var(--olive-700); }
+  .map-link { display: inline-flex; gap: var(--s-8); margin-top: var(--s-8); font-weight: 600; color: var(--olive-700); }
+
+  .order-card { background: var(--olive-100); display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-16); }
+  .order-card p { color: var(--tin-700); font-size: var(--text-small); }
+
+  .access-section { border-top: 1px solid var(--tin-200); padding-block: var(--s-48) var(--s-64); }
+  .access-section h2 { font-size: var(--text-h3); margin-bottom: var(--s-20); }
+  .access-grid { display: grid; gap: var(--s-16); }
+  .access-grid p:last-child { color: var(--tin-600); font-size: var(--text-small); }
+
+  @media (width >= 800px) {
+    .details-grid { grid-template-columns: 1.3fr 1fr; }
+  }
+  @media (width >= 700px) {
+    .access-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

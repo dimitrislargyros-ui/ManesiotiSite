@@ -1,0 +1,49 @@
+# Manesiotis — URL redirects (Netlify / Cloudflare Pages format)
+# Old site → New site 301 redirects
+
+# Greek pages (old structure → new)
+/index.html          /                    301
+/index.php           /                    301
+
+# Products
+/products            /proionta/           301
+/products/           /proionta/           301
+/proionta.html       /proionta/           301
+
+# Pet food
+/zootrofes           /proionta/zootrofes/ 301
+/zootrofes/          /proionta/zootrofes/ 301
+/zootrofes.html      /proionta/zootrofes/ 301
+/products/zootrofes  /proionta/zootrofes/ 301
+
+# Spices
+/mpaxarika           /proionta/mpaxarika/ 301
+/mpaxarika/          /proionta/mpaxarika/ 301
+/mpaxarika.html      /proionta/mpaxarika/ 301
+/bacharika           /proionta/mpaxarika/ 301
+/bacharika/          /proionta/mpaxarika/ 301
+
+# Metals
+/kassiteros          /proionta/kassiteros/ 301
+/kassiteros/         /proionta/kassiteros/ 301
+/kassiteros.html     /proionta/kassiteros/ 301
+/metals              /proionta/kassiteros/ 301
+
+# Company
+/company             /etaireia/           301
+/about               /etaireia/           301
+/about.html          /etaireia/           301
+/etaireia.html       /etaireia/           301
+
+# Contact
+/contact             /epikoinonia/        301
+/contact.html        /epikoinonia/        301
+/epikoinonia.html    /epikoinonia/        301
+
+# Order
+/order               /paraggelia/         301
+/paraggelia.html     /paraggelia/         301
+
+# Privacy
+/privacy             /aporrito/           301
+/privacy.html        /aporrito/           301

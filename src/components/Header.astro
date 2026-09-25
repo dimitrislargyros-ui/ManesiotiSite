@@ -1,0 +1,189 @@
+---
+const productLinks = [
+  { href: '/proionta/zootrofes/', title: 'Ζωοτροφές', tag: 'Για σκύλους, γάτες, πτηνά και τρωκτικά' },
+  { href: '/proionta/mpaxarika/', title: 'Μπαχαρικά', tag: 'Χονδρική σε επαγγελματίες' },
+  { href: '/proionta/kassiteros/', title: 'Κασσίτερος – Μόλυβδος', tag: 'Πρωτόχυτες χελώνες και βέργες με πιστοποιητικά' },
+];
+---
+<header class="site-header" data-astro-header>
+  <div class="container header-row">
+    <a href="/" class="brand">
+      <span class="brand-name">Μανεσιώτης</span>
+      <span class="brand-eyebrow">Από το 1919</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label="Κύρια πλοήγηση">
+      <a href="/etaireia/">Η εταιρεία</a>
+
+      <div class="nav-item-dropdown">
+        <button type="button" class="nav-trigger" aria-expanded="false" data-menu-trigger>
+          Τα προϊόντα μας
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="mega-menu" data-menu>
+          {productLinks.map((p) => (
+            <a href={p.href} class="mega-menu-item">
+              <span class="mega-menu-title">{p.title}</span>
+              <span class="mega-menu-tag">{p.tag}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <a href="/epikoinonia/">Επικοινωνία</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="/paraggelia/" class="btn btn-primary">Παραγγελία</a>
+      <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" data-mobile-trigger>
+        <span class="visually-hidden">Μενού</span>
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="nav-mobile" data-mobile-panel>
+    <a href="/etaireia/">Η εταιρεία</a>
+    <p class="nav-mobile-label">Τα προϊόντα μας</p>
+    {productLinks.map((p) => (
+      <a href={p.href} class="nav-mobile-sub">{p.title}</a>
+    ))}
+    <a href="/epikoinonia/">Επικοινωνία</a>
+    <a href="/paraggelia/" class="btn btn-primary nav-mobile-cta">Παραγγελία</a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-menu);
+    background: var(--paper);
+    border-bottom: 1px solid var(--tin-200);
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height);
+    gap: var(--s-24);
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.375rem;
+  }
+  .brand-eyebrow {
+    font-size: 0.6875rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--tin-600);
+  }
+
+  .nav-desktop {
+    display: none;
+    align-items: center;
+    gap: var(--s-32);
+    font-size: var(--text-label);
+  }
+  .nav-desktop > a:hover { color: var(--olive-700); }
+
+  .nav-item-dropdown { position: relative; }
+  .nav-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-8);
+    background: none;
+    border: none;
+    font-size: var(--text-label);
+    padding: 0;
+  }
+  .nav-trigger:hover { color: var(--olive-700); }
+  .nav-trigger svg { transition: transform var(--duration-menu) var(--ease-out); }
+  .nav-item-dropdown:hover .nav-trigger svg,
+  .nav-trigger[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+  .mega-menu {
+    position: absolute;
+    top: calc(100% + var(--s-16));
+    left: 50%;
+    transform: translate(-50%, -6px);
+    width: 320px;
+    background: var(--surface);
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    padding: var(--s-8);
+    box-shadow: 0 16px 40px rgba(22, 26, 18, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--duration-menu) var(--ease-out), transform var(--duration-menu) var(--ease-out), visibility var(--duration-menu);
+  }
+  .nav-item-dropdown:hover .mega-menu,
+  .mega-menu.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+  .mega-menu-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--s-12);
+    border-radius: var(--radius-input);
+  }
+  .mega-menu-item:hover { background: var(--olive-100); }
+  .mega-menu-title { font-weight: 600; }
+  .mega-menu-tag { font-size: var(--text-small); color: var(--tin-600); }
+
+  .header-actions { display: flex; align-items: center; gap: var(--s-16); }
+  .header-actions .btn-primary { display: none; }
+
+  .nav-toggle {
+    display: inline-flex;
+    background: none;
+    border: none;
+    padding: var(--s-8);
+  }
+
+  .nav-mobile {
+    display: none;
+    flex-direction: column;
+    gap: var(--s-4);
+    padding: var(--s-16) var(--gutter) var(--s-24);
+    border-top: 1px solid var(--tin-200);
+  }
+  .nav-mobile.is-open { display: flex; }
+  .nav-mobile a { padding: var(--s-8) 0; }
+  .nav-mobile-label { font-size: var(--text-small); color: var(--tin-600); padding-top: var(--s-8); }
+  .nav-mobile-sub { padding-left: var(--s-12); }
+  .nav-mobile-cta { margin-top: var(--s-12); justify-content: center; }
+
+  @media (width >= 900px) {
+    .nav-desktop { display: flex; }
+    .header-actions .btn-primary { display: inline-flex; }
+    .nav-toggle { display: none; }
+  }
+</style>
+
+<script>
+  const trigger = document.querySelector('[data-menu-trigger]');
+  const menu = document.querySelector('[data-menu]');
+  trigger?.addEventListener('click', () => {
+    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', String(!expanded));
+    menu?.classList.toggle('is-open', !expanded);
+  });
+
+  const mobileTrigger = document.querySelector('[data-mobile-trigger]');
+  const mobilePanel = document.querySelector('[data-mobile-panel]');
+  mobileTrigger?.addEventListener('click', () => {
+    const expanded = mobileTrigger.getAttribute('aria-expanded') === 'true';
+    mobileTrigger.setAttribute('aria-expanded', String(!expanded));
+    mobilePanel?.classList.toggle('is-open', !expanded);
+  });
+</script>

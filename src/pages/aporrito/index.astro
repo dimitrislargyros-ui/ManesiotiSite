@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const collected = ['Επωνυμία και ονοματεπώνυμο', 'Τηλέφωνο και email επικοινωνίας', 'ΑΦΜ (εφόσον παρέχεται)', 'Λεπτομέρειες παραγγελίας'];
+const localStorageNotes = [
+  'Παραμένουν αποκλειστικά στη συσκευή σας',
+  'Δεν αποστέλλονται σε κανέναν server πριν την υποβολή παραγγελίας',
+  'Μπορείτε να τα διαγράψετε ανά πάσα στιγμή από τις ρυθμίσεις του browser σας',
+];
+const rights = ['Πρόσβασης στα δεδομένα σας', 'Διόρθωσης ανακριβών δεδομένων', 'Διαγραφής δεδομένων', 'Φορητότητας δεδομένων', 'Αντίρρησης στην επεξεργασία'];
+---
+<Layout title="Απόρρητο & Cookies" description="Πολιτική απορρήτου και cookies του ιστότοπου manesiotis.gr.">
+  <section class="intro container">
+    <h1 class="reveal">Απόρρητο &amp; Cookies</h1>
+    <p class="updated reveal">Τελευταία ενημέρωση: Ιανουάριος 2025</p>
+  </section>
+
+  <section class="container policy">
+    <div class="policy-block reveal">
+      <h2>Συλλογή δεδομένων</h2>
+      <p>
+        Ο ιστότοπος manesiotis.gr συλλέγει δεδομένα μόνο όταν συμπληρώνετε τη φόρμα επικοινωνίας ή παραγγελίας. Τα
+        δεδομένα που συλλέγουμε περιλαμβάνουν:
+      </p>
+      <ul>
+        {collected.map((c) => <li>{c}</li>)}
+      </ul>
+      <p>Τα δεδομένα αυτά χρησιμοποιούνται αποκλειστικά για την εκτέλεση της παραγγελίας ή για την απάντηση στο αίτημά σας.</p>
+    </div>
+
+    <div class="policy-block reveal">
+      <h2>Αποθήκευση στον browser</h2>
+      <p>
+        Ο ιστότοπος χρησιμοποιεί <code>localStorage</code> του browser σας για να αποθηκεύει προσωρινά τα προϊόντα
+        που επιλέγετε στη φόρμα παραγγελίας. Αυτά τα δεδομένα:
+      </p>
+      <ul>
+        {localStorageNotes.map((n) => <li>{n}</li>)}
+      </ul>
+    </div>
+
+    <div class="policy-block reveal">
+      <h2>Cookies</h2>
+      <p>Ο ιστότοπός μας χρησιμοποιεί μόνο απαραίτητα cookies λειτουργικότητας. Δεν χρησιμοποιούμε cookies παρακολούθησης, analytics ή διαφημίσεων τρίτων.</p>
+      <table class="cookie-table">
+        <thead>
+          <tr><th>Cookie</th><th>Σκοπός</th><th>Διάρκεια</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>cookie_consent</td><td>Αποθήκευση επιλογής αποδοχής cookies</td><td>1 χρόνος</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="policy-block reveal">
+      <h2>Δικαιώματά σας</h2>
+      <p>Σύμφωνα με τον ΓΚΠΔ (Κανονισμός 2016/679), έχετε δικαίωμα:</p>
+      <ul>
+        {rights.map((r) => <li>{r}</li>)}
+      </ul>
+      <p>Για να ασκήσετε οποιοδήποτε δικαίωμα ή για ερωτήσεις σχετικά με τα δεδομένα σας, επικοινωνήστε μαζί μας στο <a href="mailto:info@manesiotis.gr">info@manesiotis.gr</a>.</p>
+    </div>
+
+    <div class="policy-block reveal">
+      <h2>Υπεύθυνος επεξεργασίας</h2>
+      <p>Μανεσιώτης ΑΕ</p>
+      <p>Αδριανού 11, 185 35 Πειραιάς</p>
+      <p>Email: <a href="mailto:info@manesiotis.gr">info@manesiotis.gr</a></p>
+      <p>Τηλ.: <a href="tel:+302104122132">210 412 2132</a></p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-block: var(--s-64) var(--s-16); max-width: 680px; }
+  .intro h1 { font-size: var(--text-h2); }
+  .updated { color: var(--tin-500); font-size: var(--text-small); margin-top: var(--s-8); }
+
+  .policy { padding-bottom: var(--s-96); max-width: 720px; display: flex; flex-direction: column; gap: var(--s-32); }
+  .policy-block h2 { font-size: var(--text-h3); margin-bottom: var(--s-12); }
+  .policy-block p { color: var(--tin-700); margin-bottom: var(--s-12); }
+  .policy-block ul { padding-left: var(--s-20); color: var(--tin-700); display: flex; flex-direction: column; gap: var(--s-4); margin-bottom: var(--s-12); }
+  .policy-block a:hover { color: var(--olive-700); }
+  .policy-block code { background: var(--tin-100); padding: 2px 6px; border-radius: 2px; font-size: 0.875em; }
+
+  .cookie-table { width: 100%; border-collapse: collapse; font-size: var(--text-small); }
+  .cookie-table th, .cookie-table td { text-align: left; padding: var(--s-8) var(--s-12); border-bottom: 1px solid var(--tin-200); }
+  .cookie-table th { color: var(--tin-500); text-transform: uppercase; letter-spacing: var(--tracking-label); font-size: 0.75rem; }
+</style>

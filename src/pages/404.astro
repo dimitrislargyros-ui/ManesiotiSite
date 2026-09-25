@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Η σελίδα δεν βρέθηκε" description="Η σελίδα που ζητήσατε δεν βρέθηκε.">
+  <section class="container not-found">
+    <p class="eyebrow">404</p>
+    <h1>Η σελίδα δεν βρέθηκε</h1>
+    <p>Η σελίδα που ψάχνετε μετακινήθηκε ή δεν υπάρχει πια.</p>
+    <div class="not-found-actions">
+      <a href="/" class="btn btn-primary">Αρχική σελίδα</a>
+      <a href="/proionta/" class="hero-link">Τα προϊόντα μας <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .not-found {
+    padding-block: var(--s-128) var(--s-96);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s-16);
+    max-width: 560px;
+  }
+  .not-found h1 { font-size: var(--text-h2); }
+  .not-found p:not(.eyebrow) { color: var(--tin-700); }
+  .not-found-actions { display: flex; align-items: center; gap: var(--s-24); margin-top: var(--s-8); }
+  .hero-link { font-weight: 600; color: var(--olive-700); display: inline-flex; gap: var(--s-8); }
+</style>

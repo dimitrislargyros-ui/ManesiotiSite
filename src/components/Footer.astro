@@ -1,0 +1,85 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <p class="footer-company">Ν. Θ. Μανεσιώτης &amp; Υιός Α.Ε.</p>
+      <p class="footer-tag">Εισαγωγές – Χονδρικό εμπόριο</p>
+      <p>Αδριανού 11, Πειραιάς</p>
+      <p><a href="tel:+302104175068">210 417 5068</a> · <a href="tel:+302104122132">210 412 2132</a></p>
+      <p><a href="tel:+306981904679">698 190 46 79</a></p>
+      <p><a href="mailto:info@manesiotis.gr">info@manesiotis.gr</a></p>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-heading">Εταιρεία</p>
+      <a href="/etaireia/">Η εταιρεία</a>
+      <a href="/epikoinonia/">Επικοινωνία</a>
+      <a href="/aporrito/">Πολιτική απορρήτου</a>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-heading">Προϊόντα</p>
+      <a href="/proionta/zootrofes/">Ζωοτροφές</a>
+      <a href="/proionta/mpaxarika/">Μπαχαρικά</a>
+      <a href="/proionta/kassiteros/">Κασσίτερος</a>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-heading">Για παραγγελίες</p>
+      <a href="tel:+302104122132">210 412 2132</a>
+      <a href="/paraggelia/">Φόρμα παραγγελίας</a>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>Η επιχείρηση υλοποίησε επενδυτικό σχέδιο στο πλαίσιο του ΕΣΠΑ 2014–2020.</p>
+    <p>© 2026 Ν. Θ. Μανεσιώτης &amp; Υιός Α.Ε. · Μια συνεργασία που συμφέρει</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: var(--s-64) var(--s-32);
+    margin-top: var(--s-96);
+  }
+  .footer-grid {
+    display: grid;
+    gap: var(--s-32);
+    grid-template-columns: 1fr;
+    padding-bottom: var(--s-48);
+    border-bottom: 1px solid rgba(245, 246, 243, 0.14);
+  }
+  .footer-company { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; }
+  .footer-tag { color: rgba(245, 246, 243, 0.6); font-size: var(--text-small); margin-bottom: var(--s-12); }
+  .footer-brand p { margin-bottom: var(--s-4); font-size: var(--text-small); color: rgba(245, 246, 243, 0.85); }
+  .footer-brand a:hover { color: #8ba877; }
+
+  .footer-col { display: flex; flex-direction: column; gap: var(--s-8); font-size: var(--text-small); }
+  .footer-heading {
+    font-size: var(--text-label);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: rgba(245, 246, 243, 0.5);
+    margin-bottom: var(--s-4);
+  }
+  .footer-col a { color: rgba(245, 246, 243, 0.85); }
+  .footer-col a:hover { color: #8ba877; }
+
+  .footer-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-8);
+    padding-top: var(--s-32);
+    font-size: var(--text-small);
+    color: rgba(245, 246, 243, 0.55);
+  }
+
+  @media (width >= 700px) {
+    .footer-grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+  }
+  @media (width >= 700px) {
+    .footer-bottom { flex-direction: row; justify-content: space-between; }
+  }
+</style>

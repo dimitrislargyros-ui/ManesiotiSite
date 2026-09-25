@@ -1,0 +1,271 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Παραγγελία" description="Συμπληρώστε τη φόρμα παραγγελίας και θα επικοινωνήσουμε μαζί σας για επιβεβαίωση και τιμοκατάλογο.">
+  <section class="intro container">
+    <h1 class="reveal">Παραγγελία</h1>
+    <p class="reveal">Συμπληρώστε τη φόρμα και θα επικοινωνήσουμε μαζί σας για επιβεβαίωση και τιμοκατάλογο.</p>
+  </section>
+
+  <section class="container form-section">
+    <form data-order-form class="order-form">
+      <fieldset class="form-block">
+        <legend>Ζωοτροφές</legend>
+        <div class="search-field">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <input type="text" placeholder="Αναζήτηση προϊόντος" aria-label="Αναζήτηση προϊόντος ζωοτροφών" data-product-search autocomplete="off" />
+        </div>
+        <ul class="search-results" data-search-results hidden></ul>
+        <div class="selected-block">
+          <p class="detail-label">Επιλεγμένα προϊόντα</p>
+          <p class="empty-note" data-selected-empty>Δεν έχετε επιλέξει προϊόντα ακόμα.</p>
+          <ul class="selected-list" data-selected-list></ul>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-block">
+        <legend>Μπαχαρικά <span class="optional">(προαιρετικό)</span></legend>
+        <textarea name="mpaxarika" rows="3" placeholder="π.χ. Μαύρο πιπέρι 5kg, Κανέλλα ξύλο 8cm…"></textarea>
+      </fieldset>
+
+      <fieldset class="form-block">
+        <legend>Κασσίτερος / Μόλυβδος / Κολλήσεις <span class="optional">(προαιρετικό)</span></legend>
+        <textarea name="kassiteros" rows="3" placeholder="π.χ. Κασσίτερος βέργα 99,9%…"></textarea>
+      </fieldset>
+
+      <fieldset class="form-block">
+        <legend>Στοιχεία επικοινωνίας</legend>
+        <div class="field-grid">
+          <label class="field">
+            <span>Επωνυμία <span class="required">*</span></span>
+            <input type="text" name="company" required />
+          </label>
+          <label class="field">
+            <span>Ονοματεπώνυμο <span class="required">*</span></span>
+            <input type="text" name="fullname" required />
+          </label>
+          <label class="field">
+            <span>Τηλέφωνο <span class="required">*</span></span>
+            <input type="tel" name="phone" required />
+          </label>
+          <label class="field">
+            <span>Email <span class="required">*</span></span>
+            <input type="email" name="email" required />
+          </label>
+          <label class="field">
+            <span>ΑΦΜ <span class="optional">(προαιρετικό)</span></span>
+            <input type="text" name="vat" />
+          </label>
+          <label class="field">
+            <span>Περιοχή παράδοσης <span class="optional">(προαιρετικό)</span></span>
+            <input type="text" name="area" />
+          </label>
+        </div>
+        <label class="field field-full">
+          <span>Σχόλια <span class="optional">(προαιρετικό)</span></span>
+          <textarea name="comments" rows="3"></textarea>
+        </label>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Αποστολή παραγγελίας</button>
+        <p class="prefer-phone">Προτιμάτε τηλέφωνο; <a href="tel:+302104122132">210 412 2132</a></p>
+      </div>
+    </form>
+
+    <div class="success-panel" data-success hidden>
+      <h2>Η παραγγελία σας στάλθηκε!</h2>
+      <p>Θα επικοινωνήσουμε μαζί σας σύντομα για επιβεβαίωση και τιμοκατάλογο. Μπορείτε επίσης να μας καλέσετε στο <a href="tel:+302104122132">210 412 2132</a>.</p>
+      <a href="/" class="btn btn-secondary">Αρχική σελίδα</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-block: var(--s-64) var(--s-32); max-width: 680px; }
+  .intro h1 { font-size: var(--text-h2); margin-bottom: var(--s-12); }
+  .intro p { color: var(--tin-700); }
+
+  .form-section { padding-bottom: var(--s-96); max-width: 720px; }
+
+  .order-form { display: flex; flex-direction: column; gap: var(--s-32); }
+  .form-block { border: 1px solid var(--tin-200); border-radius: var(--radius-input); padding: var(--s-24); }
+  .form-block legend {
+    font-size: var(--text-label);
+    font-weight: 600;
+    padding: 0 var(--s-8);
+  }
+  .optional, .required { font-weight: 400; color: var(--tin-500); font-size: var(--text-small); }
+  .required { color: var(--olive-700); }
+
+  .search-field {
+    display: flex;
+    align-items: center;
+    gap: var(--s-8);
+    border: 1px solid var(--tin-300);
+    border-radius: var(--radius-input);
+    padding: var(--s-12) var(--s-16);
+  }
+  .search-field svg { color: var(--tin-500); flex-shrink: 0; }
+  .search-field input { border: none; outline: none; width: 100%; font-size: var(--text-body); }
+
+  .search-results {
+    list-style: none;
+    margin-top: var(--s-8);
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .search-results li {
+    padding: var(--s-8) var(--s-12);
+    cursor: pointer;
+    font-size: var(--text-small);
+    border-bottom: 1px solid var(--tin-100);
+  }
+  .search-results li:last-child { border-bottom: none; }
+  .search-results li:hover { background: var(--olive-100); }
+
+  .selected-block { margin-top: var(--s-16); }
+  .detail-label { font-size: var(--text-small); font-weight: 600; text-transform: uppercase; letter-spacing: var(--tracking-label); color: var(--tin-500); margin-bottom: var(--s-8); }
+  .empty-note { color: var(--tin-500); font-size: var(--text-small); }
+  .selected-list { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s-8); }
+  .selected-list li {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-8);
+    background: var(--olive-100);
+    color: var(--olive-800);
+    border-radius: 999px;
+    padding: var(--s-4) var(--s-8) var(--s-4) var(--s-12);
+    font-size: var(--text-small);
+  }
+  .selected-list button { background: none; border: none; color: inherit; opacity: 0.7; padding: var(--s-4); }
+  .selected-list button:hover { opacity: 1; }
+
+  textarea, input[type="text"], input[type="tel"], input[type="email"] {
+    width: 100%;
+    border: 1px solid var(--tin-300);
+    border-radius: var(--radius-input);
+    padding: var(--s-12);
+    resize: vertical;
+  }
+
+  .field-grid { display: grid; gap: var(--s-16); margin-bottom: var(--s-16); }
+  .field { display: flex; flex-direction: column; gap: var(--s-4); font-size: var(--text-small); }
+  .field-full { margin-top: 0; }
+
+  .form-actions { display: flex; flex-direction: column; gap: var(--s-12); align-items: flex-start; }
+  .prefer-phone { font-size: var(--text-small); color: var(--tin-600); }
+  .prefer-phone a { font-weight: 600; color: var(--olive-700); }
+
+  .success-panel {
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    padding: var(--s-48) var(--s-32);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-16);
+  }
+  .success-panel h2 { font-size: var(--text-h3); }
+  .success-panel p { color: var(--tin-700); max-width: 48ch; }
+
+  @media (width >= 600px) {
+    .field-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<script>
+  import { products } from '../../data/zootrofes-products';
+
+  const searchInput = document.querySelector<HTMLInputElement>('[data-product-search]');
+  const resultsList = document.querySelector<HTMLElement>('[data-search-results]');
+  const selectedList = document.querySelector<HTMLElement>('[data-selected-list]');
+  const selectedEmpty = document.querySelector<HTMLElement>('[data-selected-empty]');
+  const form = document.querySelector<HTMLFormElement>('[data-order-form]');
+  const successPanel = document.querySelector<HTMLElement>('[data-success]');
+
+  const STORAGE_KEY = 'manesiotis_order_products';
+  let selected: { code: string; name: string }[] = [];
+
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) selected = JSON.parse(raw);
+  } catch {
+    selected = [];
+  }
+
+  function persist() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(selected));
+    } catch {
+      /* localStorage unavailable (private browsing) — selection stays in-memory only */
+    }
+  }
+
+  function renderSelected() {
+    if (!selectedList || !selectedEmpty) return;
+    selectedList.innerHTML = '';
+    selectedEmpty.hidden = selected.length > 0;
+    for (const item of selected) {
+      const li = document.createElement('li');
+      li.innerHTML = `<span>${item.name}</span>`;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', `Αφαίρεση ${item.name}`);
+      btn.innerHTML = '×';
+      btn.addEventListener('click', () => {
+        selected = selected.filter((p) => p.code !== item.code);
+        persist();
+        renderSelected();
+      });
+      li.appendChild(btn);
+      selectedList.appendChild(li);
+    }
+  }
+
+  searchInput?.addEventListener('input', () => {
+    const term = searchInput.value.trim().toLowerCase();
+    if (!resultsList) return;
+    if (!term) {
+      resultsList.hidden = true;
+      resultsList.innerHTML = '';
+      return;
+    }
+    const matches = products
+      .filter((p) => p.name.toLowerCase().includes(term) || (p.brand ?? '').toLowerCase().includes(term))
+      .slice(0, 8);
+    resultsList.innerHTML = '';
+    resultsList.hidden = matches.length === 0;
+    for (const p of matches) {
+      const li = document.createElement('li');
+      li.textContent = p.brand ? `${p.name} — ${p.brand}` : p.name;
+      li.addEventListener('click', () => {
+        if (!selected.some((s) => s.code === p.code)) {
+          selected.push({ code: p.code, name: p.name });
+          persist();
+          renderSelected();
+        }
+        searchInput.value = '';
+        resultsList.hidden = true;
+        resultsList.innerHTML = '';
+      });
+      resultsList.appendChild(li);
+    }
+  });
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // No backend endpoint exists yet for this form — wire up a real submission
+    // handler (API route / email service) before launch. For now this just
+    // shows the confirmation state and clears the locally-stored selection.
+    selected = [];
+    persist();
+    form.hidden = true;
+    if (successPanel) successPanel.hidden = false;
+  });
+
+  renderSelected();
+</script>

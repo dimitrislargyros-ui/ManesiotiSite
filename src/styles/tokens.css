@@ -1,0 +1,90 @@
+:root {
+  /* Color */
+  --paper: #f5f6f3;
+  --ink: #161a12;
+  --surface: #fff;
+
+  --olive-100: #e3ead6;
+  --olive-700: #3d5227;
+  --olive-800: #2d3d1d;
+
+  --tin-100: #e6e9e4;
+  --tin-200: #cdd2cb;
+  --tin-300: #b3bbb0;
+  --tin-400: #9aa39a;
+  --tin-500: #818b80;
+  --tin-600: #697369;
+  --tin-700: #5b6259;
+
+  /* Type */
+  --font-display: "Brygada 1918", Georgia, serif;
+  --font-body: "Commissioner", system-ui, sans-serif;
+
+  --text-display: clamp(2.5rem, 5vw + 1rem, 5rem);
+  --text-h2: clamp(1.75rem, 2vw + 1rem, 2.75rem);
+  --text-h3: 1.375rem;
+  --text-body: 1.0625rem;
+  --text-label: 0.9375rem;
+  --text-small: 0.875rem;
+
+  --leading-display: 1.1;
+  --leading-heading: 1.25;
+  --leading-body: 1.65;
+
+  --tracking-display: -0.02em;
+  --tracking-label: 0.02em;
+
+  /* Spacing scale */
+  --s-0: 0px;
+  --s-1: 1px;
+  --s-2: 2px;
+  --s-4: 4px;
+  --s-8: 8px;
+  --s-12: 12px;
+  --s-16: 16px;
+  --s-20: 20px;
+  --s-24: 24px;
+  --s-32: 32px;
+  --s-40: 40px;
+  --s-48: 48px;
+  --s-64: 64px;
+  --s-80: 80px;
+  --s-96: 96px;
+  --s-128: 128px;
+
+  --container-max: 1280px;
+  --gutter: var(--s-24);
+  --header-height: 68px;
+
+  /* Radius */
+  --radius-button: 2px;
+  --radius-input: 2px;
+
+  /* Motion */
+  --duration-instant: 0.1s;
+  --duration-fast: 0.16s;
+  --duration-hover: 0.18s;
+  --duration-menu: 0.2s;
+  --duration-drawer: 0.38s;
+  --duration-focal: 0.7s;
+  --duration-stagger: 60ms;
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Z-index */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-menu: 100;
+  --z-drawer: 200;
+  --z-overlay: 300;
+  --z-toast: 400;
+}
+
+@media (width <= 767px) {
+  :root {
+    --gutter: var(--s-16);
+  }
+}

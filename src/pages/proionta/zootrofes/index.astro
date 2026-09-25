@@ -1,0 +1,584 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { products } from '../../../data/zootrofes-products';
+import type { Animal, PackageSize } from '../../../data/zootrofes-products';
+import { imageFor, ANIMAL_LABELS } from '../../../data/zootrofes-images';
+
+const brands = [...new Set(products.map((p) => p.brand).filter((b): b is string => Boolean(b)))].sort((a, b) =>
+  a.localeCompare(b, 'el')
+);
+
+const ANIMAL_ORDER: Animal[] = ['dog', 'cat', 'bird', 'small_animal', 'accessories'];
+const SIZE_OPTIONS: { key: PackageSize; label: string }[] = [
+  { key: 'under5kg', label: '< 5kg' },
+  { key: '5to15kg', label: '5–15kg' },
+  { key: 'over15kg', label: '> 15kg' },
+];
+
+const brandCount = (b: string) => products.filter((p) => p.brand === b).length;
+const animalCount = (a: Animal) => products.filter((p) => p.animal === a).length;
+const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s).length;
+---
+<Layout
+  title="Ζωοτροφές"
+  description="Καταξιωμένα brands ζωοτροφών για σκύλους, γάτες, πτηνά και τρωκτικά. Χονδρική για pet shops σε όλη την Ελλάδα."
+>
+  <section class="catalog-hero container">
+    <p class="eyebrow reveal">Τα προϊόντα μας</p>
+    <h1 class="reveal">Ζωοτροφές</h1>
+    <p class="catalog-lede reveal">
+      Καταξιωμένα brands για σκύλους, γάτες, πτηνά και τρωκτικά. Ανταγωνιστικές τιμές χονδρικής για pet shops και
+      χονδρεμπόρους.
+    </p>
+  </section>
+
+  <section class="catalog container" data-catalog>
+    <aside class="filters-panel" data-filters-panel aria-label="Φίλτρα προϊόντων">
+      <div class="filters-panel-header">
+        <h2>Φίλτρα</h2>
+        <button type="button" class="filters-close" data-filters-close aria-label="Κλείσιμο φίλτρων">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <button type="button" class="clear-all" data-clear-all hidden>Καθαρισμός όλων</button>
+
+      <fieldset class="filter-group">
+        <legend>Είδος ζώου</legend>
+        {ANIMAL_ORDER.map((a) => (
+          <label class="filter-option">
+            <input type="checkbox" data-facet="animal" value={a} />
+            <span>{ANIMAL_LABELS[a]}</span>
+            <span class="filter-count" data-count-for={`animal:${a}`}>{animalCount(a)}</span>
+          </label>
+        ))}
+      </fieldset>
+
+      <fieldset class="filter-group">
+        <legend>Μέγεθος συσκευασίας</legend>
+        {SIZE_OPTIONS.map((s) => (
+          <label class="filter-option">
+            <input type="checkbox" data-facet="size" value={s.key} />
+            <span>{s.label}</span>
+            <span class="filter-count" data-count-for={`size:${s.key}`}>{sizeCount(s.key)}</span>
+          </label>
+        ))}
+      </fieldset>
+
+      <fieldset class="filter-group filter-group-scroll">
+        <legend>Εταιρεία</legend>
+        {brands.map((b) => (
+          <label class="filter-option">
+            <input type="checkbox" data-facet="brand" value={b} />
+            <span>{b}</span>
+            <span class="filter-count" data-count-for={`brand:${b}`}>{brandCount(b)}</span>
+          </label>
+        ))}
+      </fieldset>
+    </aside>
+
+    <div class="catalog-main">
+      <div class="catalog-toolbar">
+        <div class="search-field">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.3"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Αναζήτηση προϊόντος ή brand…" aria-label="Αναζήτηση προϊόντος" data-search-input />
+        </div>
+        <p class="results-count" data-results-count>{products.length} προϊόντα</p>
+      </div>
+
+      <div class="active-chips" data-active-chips></div>
+
+      <p class="empty-state" data-empty-state hidden>Δεν βρέθηκαν προϊόντα με αυτά τα κριτήρια.</p>
+
+      <div class="product-grid" data-product-grid>
+        {products.map((p) => (
+          <article
+            class="product-card"
+            data-code={p.code}
+            data-brand={p.brand ?? ''}
+            data-animal={p.animal}
+            data-size={p.packageSize ?? ''}
+            data-search={`${p.name} ${p.brand ?? ''}`.toLowerCase()}
+          >
+            <div class="product-image">
+              <img
+                src={imageFor(p.animal, 400)}
+                srcset={`${imageFor(p.animal, 400)} 400w, ${imageFor(p.animal, 800)} 800w`}
+                sizes="(width <= 700px) 45vw, 260px"
+                alt=""
+                loading="lazy"
+                width="400"
+                height="300"
+              />
+              <span class="product-badge">{ANIMAL_LABELS[p.animal]}</span>
+            </div>
+            <div class="product-body">
+              {p.brand && <p class="product-brand">{p.brand}</p>}
+              <p class="product-name">{p.name}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <button type="button" class="mobile-filter-bar" data-filters-open>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12M4.5 8h7M7 12h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Φίλτρα
+    <span class="mobile-filter-badge" data-mobile-active-count hidden></span>
+  </button>
+  <div class="filters-overlay" data-filters-overlay></div>
+</Layout>
+
+<style>
+  .catalog-hero {
+    padding-block: var(--s-48) var(--s-32);
+  }
+  .catalog-hero h1 {
+    font-size: var(--text-h2);
+    margin-block: var(--s-8) var(--s-12);
+  }
+  .catalog-lede {
+    max-width: 60ch;
+    color: var(--tin-700);
+  }
+
+  .catalog {
+    display: block;
+    padding-bottom: var(--s-96);
+  }
+
+  .catalog-main { min-width: 0; }
+
+  .catalog-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-12);
+    margin-bottom: var(--s-16);
+  }
+  .search-field {
+    display: flex;
+    align-items: center;
+    gap: var(--s-8);
+    border: 1px solid var(--tin-300);
+    border-radius: var(--radius-input);
+    padding: var(--s-12) var(--s-16);
+    background: var(--surface);
+  }
+  .search-field svg { color: var(--tin-500); flex-shrink: 0; }
+  .search-field input {
+    border: none;
+    outline: none;
+    width: 100%;
+    background: transparent;
+    font-size: var(--text-body);
+  }
+  .results-count {
+    font-size: var(--text-small);
+    color: var(--tin-600);
+  }
+
+  .active-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-8);
+    margin-bottom: var(--s-16);
+  }
+  .active-chips:empty { display: none; margin: 0; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-8);
+    background: var(--olive-100);
+    color: var(--olive-800);
+    border-radius: 999px;
+    padding: var(--s-4) var(--s-8) var(--s-4) var(--s-12);
+    font-size: var(--text-small);
+    animation: chip-in var(--duration-fast) var(--ease-out);
+  }
+  .chip button {
+    display: inline-flex;
+    background: none;
+    border: none;
+    padding: var(--s-4);
+    color: inherit;
+    opacity: 0.7;
+  }
+  .chip button:hover { opacity: 1; }
+  @keyframes chip-in {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .empty-state {
+    padding: var(--s-64) 0;
+    text-align: center;
+    color: var(--tin-600);
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-16);
+  }
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    overflow: hidden;
+    transition: border-color var(--duration-hover) var(--ease-out), box-shadow var(--duration-hover) var(--ease-out);
+  }
+  .product-card:hover {
+    border-color: var(--olive-700);
+    box-shadow: 0 8px 24px rgba(22, 26, 18, 0.08);
+  }
+  .product-card[hidden] { display: none; }
+  .product-image {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    background: var(--tin-100);
+  }
+  .product-image img { width: 100%; height: 100%; object-fit: cover; }
+  .product-badge {
+    position: absolute;
+    top: var(--s-8);
+    left: var(--s-8);
+    background: rgba(22, 26, 18, 0.72);
+    color: var(--paper);
+    font-size: 0.6875rem;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    padding: var(--s-4) var(--s-8);
+    border-radius: 999px;
+  }
+  .product-body { padding: var(--s-12) var(--s-16) var(--s-16); }
+  .product-brand {
+    font-size: var(--text-small);
+    color: var(--olive-700);
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .product-name { font-size: var(--text-label); line-height: 1.35; }
+
+  /* Filters panel: static sidebar on desktop, off-canvas drawer on mobile */
+  .filters-panel {
+    background: var(--surface);
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    padding: var(--s-20);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-20);
+    margin-bottom: var(--s-24);
+  }
+  .filters-panel-header { display: flex; align-items: center; justify-content: space-between; }
+  .filters-panel-header h2 { font-size: var(--text-h3); }
+  .filters-close { display: none; background: none; border: none; padding: var(--s-4); }
+
+  .clear-all {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: var(--olive-700);
+    font-size: var(--text-small);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    padding: 0;
+  }
+
+  .filter-group { border: none; padding: 0; display: flex; flex-direction: column; gap: var(--s-8); }
+  .filter-group legend {
+    font-size: var(--text-small);
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--tin-600);
+    margin-bottom: var(--s-4);
+    padding: 0;
+  }
+  .filter-group-scroll {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: var(--s-8);
+  }
+  .filter-option {
+    display: flex;
+    align-items: center;
+    gap: var(--s-8);
+    font-size: var(--text-label);
+    cursor: pointer;
+  }
+  .filter-option input { accent-color: var(--olive-700); width: 16px; height: 16px; }
+  .filter-option span:nth-of-type(1) { flex: 1; }
+  .filter-count {
+    color: var(--tin-500);
+    font-size: var(--text-small);
+    font-variant-numeric: tabular-nums;
+  }
+  .filter-option:has(input:disabled) { opacity: 0.4; cursor: not-allowed; }
+
+  .mobile-filter-bar {
+    display: none;
+    position: sticky;
+    bottom: var(--s-16);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: var(--z-raised);
+    align-items: center;
+    gap: var(--s-8);
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 999px;
+    padding: var(--s-12) var(--s-24);
+    font-size: var(--text-label);
+    font-weight: 600;
+    box-shadow: 0 12px 32px rgba(22, 26, 18, 0.28);
+    margin-inline: auto;
+    width: fit-content;
+  }
+  .mobile-filter-badge {
+    background: var(--olive-700);
+    border-radius: 999px;
+    min-width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6875rem;
+    padding-inline: 4px;
+  }
+
+  .filters-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 26, 18, 0.4);
+    z-index: var(--z-overlay);
+    opacity: 0;
+    transition: opacity var(--duration-drawer) var(--ease-drawer);
+  }
+
+  @media (width <= 899px) {
+    .filters-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(340px, 88vw);
+      margin: 0;
+      border-radius: 0;
+      z-index: var(--z-drawer);
+      transform: translateX(100%);
+      transition: transform var(--duration-drawer) var(--ease-drawer);
+      overflow-y: auto;
+    }
+    .filters-panel.is-open { transform: translateX(0); }
+    .filters-close { display: inline-flex; }
+    .mobile-filter-bar { display: inline-flex; }
+    body:has(.filters-panel.is-open) { overflow: hidden; }
+    .filters-overlay.is-open { display: block; opacity: 1; }
+  }
+
+  @media (width >= 900px) {
+    .catalog { display: grid; grid-template-columns: 260px 1fr; gap: var(--s-32); align-items: start; }
+    .filters-panel { position: sticky; top: calc(var(--header-height) + var(--s-16)); }
+    .catalog-toolbar { flex-direction: row; align-items: center; justify-content: space-between; }
+    .search-field { max-width: 360px; }
+    .product-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (width >= 1200px) {
+    .product-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+
+<script>
+  type Facet = 'brand' | 'animal' | 'size';
+
+  const grid = document.querySelector<HTMLElement>('[data-product-grid]');
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('.product-card'));
+  const searchInput = document.querySelector<HTMLInputElement>('[data-search-input]');
+  const resultsCount = document.querySelector<HTMLElement>('[data-results-count]');
+  const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
+  const activeChips = document.querySelector<HTMLElement>('[data-active-chips]');
+  const clearAllBtn = document.querySelector<HTMLButtonElement>('[data-clear-all]');
+  const checkboxes = Array.from(document.querySelectorAll<HTMLInputElement>('[data-facet]'));
+
+  const filtersPanel = document.querySelector<HTMLElement>('[data-filters-panel]');
+  const filtersOverlay = document.querySelector<HTMLElement>('[data-filters-overlay]');
+  const filtersOpenBtn = document.querySelector<HTMLButtonElement>('[data-filters-open]');
+  const filtersCloseBtn = document.querySelector<HTMLButtonElement>('[data-filters-close]');
+  const mobileActiveCount = document.querySelector<HTMLElement>('[data-mobile-active-count]');
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const state = {
+    brand: new Set<string>(),
+    animal: new Set<string>(),
+    size: new Set<string>(),
+    search: '',
+  };
+
+  const LABELS: Record<string, string> = {
+    dog: 'Σκύλος',
+    cat: 'Γάτα',
+    bird: 'Πτηνά',
+    small_animal: 'Τρωκτικό',
+    accessories: 'Αξεσουάρ',
+    under5kg: '< 5kg',
+    '5to15kg': '5–15kg',
+    over15kg: '> 15kg',
+  };
+
+  function matches(card: HTMLElement, ignore?: Facet): boolean {
+    const brand = card.dataset.brand || '';
+    const animal = card.dataset.animal || '';
+    const size = card.dataset.size || '';
+    const search = card.dataset.search || '';
+
+    if (ignore !== 'brand' && state.brand.size && !state.brand.has(brand)) return false;
+    if (ignore !== 'animal' && state.animal.size && !state.animal.has(animal)) return false;
+    if (ignore !== 'size' && state.size.size && !state.size.has(size)) return false;
+    if (state.search && !search.includes(state.search)) return false;
+    return true;
+  }
+
+  function animateIn(el: HTMLElement) {
+    if (reduceMotion) return;
+    el.animate(
+      [
+        { opacity: 0, transform: 'translateY(6px) scale(0.98)' },
+        { opacity: 1, transform: 'translateY(0) scale(1)' },
+      ],
+      { duration: 180, easing: 'cubic-bezier(.23,1,.32,1)' }
+    );
+  }
+
+  function render() {
+    let visibleCount = 0;
+    for (const card of cards) {
+      const isMatch = matches(card);
+      const wasHidden = card.hasAttribute('hidden');
+      if (isMatch) {
+        if (wasHidden) {
+          card.removeAttribute('hidden');
+          animateIn(card);
+        }
+        visibleCount++;
+      } else if (!wasHidden) {
+        card.setAttribute('hidden', '');
+      }
+    }
+
+    if (resultsCount) resultsCount.textContent = `${visibleCount} προϊόντα`;
+    if (emptyState) emptyState.hidden = visibleCount !== 0;
+    if (grid) grid.hidden = visibleCount === 0;
+
+    // Update per-option facet counts (counts reflect the *other* active facets)
+    for (const cb of checkboxes) {
+      const facet = cb.dataset.facet as Facet;
+      const value = cb.value;
+      const count = cards.reduce((n, card) => {
+        if (!matches(card, facet)) return n;
+        const cardValue = facet === 'brand' ? card.dataset.brand : facet === 'animal' ? card.dataset.animal : card.dataset.size;
+        return cardValue === value ? n + 1 : n;
+      }, 0);
+      const countEl = document.querySelector(`[data-count-for="${facet}:${value}"]`);
+      if (countEl) countEl.textContent = String(count);
+      cb.disabled = count === 0 && !cb.checked;
+    }
+
+    renderChips();
+  }
+
+  function renderChips() {
+    if (!activeChips) return;
+    activeChips.innerHTML = '';
+    const addChip = (label: string, onRemove: () => void) => {
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.innerHTML = `<span>${label}</span>`;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-label', `Αφαίρεση φίλτρου ${label}`);
+      btn.innerHTML = '<svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+      btn.addEventListener('click', onRemove);
+      chip.appendChild(btn);
+      activeChips.appendChild(chip);
+    };
+
+    for (const value of state.brand) {
+      addChip(value, () => toggleFacet('brand', value, false));
+    }
+    for (const value of state.animal) {
+      addChip(LABELS[value] ?? value, () => toggleFacet('animal', value, false));
+    }
+    for (const value of state.size) {
+      addChip(LABELS[value] ?? value, () => toggleFacet('size', value, false));
+    }
+    if (state.search) {
+      const term = state.search;
+      addChip(`“${term}”`, () => {
+        state.search = '';
+        if (searchInput) searchInput.value = '';
+        render();
+      });
+    }
+
+    const activeCount = state.brand.size + state.animal.size + state.size.size + (state.search ? 1 : 0);
+    if (clearAllBtn) clearAllBtn.hidden = activeCount < 2;
+    if (mobileActiveCount) {
+      mobileActiveCount.hidden = activeCount === 0;
+      mobileActiveCount.textContent = String(activeCount);
+    }
+  }
+
+  function toggleFacet(facet: Facet, value: string, checked: boolean) {
+    state[facet][checked ? 'add' : 'delete'](value);
+    const cb = checkboxes.find((c) => c.dataset.facet === facet && c.value === value);
+    if (cb) cb.checked = checked;
+    render();
+  }
+
+  for (const cb of checkboxes) {
+    cb.addEventListener('change', () => {
+      const facet = cb.dataset.facet as Facet;
+      state[facet][cb.checked ? 'add' : 'delete'](cb.value);
+      render();
+    });
+  }
+
+  let searchTimer: ReturnType<typeof setTimeout>;
+  searchInput?.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.search = searchInput.value.trim().toLowerCase();
+      render();
+    }, 120);
+  });
+
+  clearAllBtn?.addEventListener('click', () => {
+    state.brand.clear();
+    state.animal.clear();
+    state.size.clear();
+    state.search = '';
+    if (searchInput) searchInput.value = '';
+    for (const cb of checkboxes) cb.checked = false;
+    render();
+  });
+
+  function openFilters() {
+    filtersPanel?.classList.add('is-open');
+    filtersOverlay?.classList.add('is-open');
+  }
+  function closeFilters() {
+    filtersPanel?.classList.remove('is-open');
+    filtersOverlay?.classList.remove('is-open');
+  }
+  filtersOpenBtn?.addEventListener('click', openFilters);
+  filtersCloseBtn?.addEventListener('click', closeFilters);
+  filtersOverlay?.addEventListener('click', closeFilters);
+
+  render();
+</script>

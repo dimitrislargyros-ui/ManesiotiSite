@@ -1,0 +1,81 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const sectors = [
+  {
+    title: 'Ζωοτροφές',
+    copy: 'Καταξιωμένα brands για σκύλους, γάτες, πτηνά και τρωκτικά. Ανταγωνιστικές τιμές χονδρικής για pet shops και χονδρεμπόρους.',
+    href: '/proionta/zootrofes/',
+    cta: 'Δείτε τον κατάλογο',
+  },
+  {
+    title: 'Μπαχαρικά',
+    copy: 'Εισαγωγές από πιστοποιημένους προμηθευτές. Αποθήκευση σε ιδανικές συνθήκες. Για βιομηχανίες τροφίμων και συσκευαστήρια.',
+    href: '/proionta/mpaxarika/',
+    cta: 'Δείτε τα προϊόντα',
+  },
+  {
+    title: 'Κασσίτερος – Μόλυβδος – Κολλήσεις',
+    copy: 'Πρωτόχυτες χελώνες και βέργες με πιστοποιητικά ανάλυσης και γνησιότητας. Για βιομηχανίες, χυτήρια, μηχανουργεία και τεχνικούς.',
+    href: '/proionta/kassiteros/',
+    cta: 'Δείτε τα προϊόντα',
+  },
+];
+---
+<Layout title="Τα προϊόντα μας" description="Τρεις κλάδοι δραστηριότητας: ζωοτροφές, μπαχαρικά και κασσίτερος. Μία επωνυμία που εμπιστεύονται οι επαγγελματίες από το 1919.">
+  <section class="intro container">
+    <h1 class="reveal">Τα προϊόντα μας</h1>
+    <p class="reveal">Τρεις κλάδοι δραστηριότητας, εκατοντάδες προϊόντα, μία επωνυμία που εμπιστεύονται οι επαγγελματίες από το 1919.</p>
+  </section>
+
+  <section class="container sectors-grid">
+    {sectors.map((s) => (
+      <a href={s.href} class="sector-card reveal">
+        <h2>{s.title}</h2>
+        <p>{s.copy}</p>
+        <span class="sector-cta">{s.cta} <span aria-hidden="true">→</span></span>
+      </a>
+    ))}
+  </section>
+
+  <section class="container order-cta reveal">
+    <p>Για να παραγγείλετε, χρησιμοποιήστε τη φόρμα μας ή επικοινωνήστε τηλεφωνικά.</p>
+    <div class="order-cta-actions">
+      <a href="/paraggelia/" class="btn btn-primary">Παραγγελία</a>
+      <a href="tel:+302104122132" class="hero-link">210 412 2132</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-block: var(--s-64) var(--s-32); max-width: 680px; }
+  .intro h1 { font-size: var(--text-h2); margin-bottom: var(--s-12); }
+  .intro p { color: var(--tin-700); }
+
+  .sectors-grid { display: grid; gap: var(--s-16); padding-bottom: var(--s-64); }
+  .sector-card {
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    padding: var(--s-32) var(--s-24);
+    transition: border-color var(--duration-hover) var(--ease-out), background-color var(--duration-hover) var(--ease-out);
+  }
+  .sector-card:hover { border-color: var(--olive-700); background: var(--olive-100); }
+  .sector-card h2 { font-size: var(--text-h3); margin-bottom: var(--s-8); }
+  .sector-card p { color: var(--tin-600); font-size: var(--text-small); max-width: 60ch; margin-bottom: var(--s-16); }
+  .sector-cta { font-weight: 600; color: var(--olive-700); font-size: var(--text-label); }
+
+  .order-cta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+    align-items: flex-start;
+    padding-block: var(--s-48);
+    border-top: 1px solid var(--tin-200);
+  }
+  .order-cta-actions { display: flex; align-items: center; gap: var(--s-24); }
+  .hero-link { font-weight: 600; color: var(--olive-700); }
+
+  @media (width >= 700px) {
+    .sectors-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

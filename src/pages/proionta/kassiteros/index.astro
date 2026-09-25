@@ -1,0 +1,133 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const provides = [
+  'Πιστοποιητικό χημικής ανάλυσης ανά παρτίδα',
+  'Πιστοποιητικό γνησιότητας',
+  'Δήλωση συμμόρφωσης με RoHS / REACH',
+  'Δυνατότητα αποθήκευσης μεγάλων ποσοτήτων',
+  'Παράδοση σε μεγάλα βάρη (παλέτες)',
+];
+
+const availableProducts = [
+  'Μόλυβδος χελώνα (καθαρότητα min 99,99%)',
+  'Κασσίτερος βέργα (καλάι, 99,9%)',
+  'Κασσίτερος χελώνα (min 99,9%)',
+  'Κόλληση βέργες 33/67',
+  'Κόλληση βέργες 50/50',
+];
+
+const applications = [
+  { title: 'Χυτήρια & Μηχανουργεία', copy: 'Κασσίτερος και κράματα για χύτευση, συγκόλληση και επικασσιτέρωση μεταλλικών εξαρτημάτων.' },
+  { title: 'Ναυπηγεία', copy: 'Μολύβδινα αντίβαρα, επένδυση υφάλων και ειδικά κράματα για ναυτιλιακές εφαρμογές.' },
+  { title: 'Ηλεκτρολογικές εγκαταστάσεις', copy: 'Κολλήσεις κασσίτερου-μολύβδου και κασσίτερου-ασήμι για ηλεκτρονικές πλακέτες και καλωδιώσεις.' },
+  { title: 'Βιομηχανία τροφίμων', copy: 'Κολλήσεις τροφίμων (food-grade) για συντήρηση και ανακατασκευή εξοπλισμού επεξεργασίας τροφίμων.' },
+];
+---
+<Layout title="Κασσίτερος – Μόλυβδος – Κολλήσεις" description="Πρωτόχυτα μέταλλα από αναγνωρισμένες πηγές, με πιστοποιητικά χημικής ανάλυσης και γνησιότητας. Για βιομηχανίες, χυτήρια και μηχανουργεία.">
+  <section class="intro container">
+    <p class="eyebrow reveal">Προϊόντα</p>
+    <h1 class="reveal">Κασσίτερος – Μόλυβδος – Κολλήσεις</h1>
+    <p class="reveal">
+      Πρωτόχυτα μέταλλα από αναγνωρισμένες πηγές. Κάθε παρτίδα συνοδεύεται από πιστοποιητικό χημικής ανάλυσης και
+      πιστοποιητικό γνησιότητας.
+    </p>
+  </section>
+
+  <section class="container quality-grid">
+    <div class="reveal">
+      <h2>Ποιότητα με τεκμηρίωση</h2>
+      <p>
+        Από το 1919 εισάγουμε κασσίτερο και μόλυβδο για τις ανάγκες της ελληνικής βιομηχανίας. Συνεργαζόμαστε
+        αποκλειστικά με πιστοποιημένες μεταλλουργίες και προμηθευτές που τηρούν τα διεθνή πρότυπα ποιότητας.
+      </p>
+      <p>
+        Τα προϊόντα μας χρησιμοποιούνται σε χυτήρια, μηχανουργεία, ναυπηγεία, ηλεκτρολογικές εγκαταστάσεις και
+        βιομηχανίες τροφίμων (κολλήσεις).
+      </p>
+    </div>
+    <div class="provides-card reveal">
+      <h3>Τι παρέχουμε</h3>
+      <ul>
+        {provides.map((p) => <li>{p}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="container products-section">
+    <p class="eyebrow reveal">Διαθέσιμα προϊόντα</p>
+    <ul class="products-list reveal">
+      {availableProducts.map((p) => <li>{p}</li>)}
+    </ul>
+  </section>
+
+  <section class="container applications-section">
+    <p class="eyebrow reveal">Εφαρμογές</p>
+    <div class="applications-grid">
+      {applications.map((a) => (
+        <div class="application-card reveal">
+          <h3>{a.title}</h3>
+          <p>{a.copy}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="container quote-cta reveal">
+    <h2>Ζητήστε προσφορά</h2>
+    <p>
+      Οι τιμές διαμορφώνονται ανάλογα με την ποσότητα και τις τρέχουσες διεθνείς τιμές μετάλλων. Επικοινωνήστε για
+      ενημερωμένο τιμοκατάλογο.
+    </p>
+    <div class="quote-cta-actions">
+      <a href="/paraggelia/" class="btn btn-primary">Παραγγελία</a>
+      <a href="tel:+302104122132" class="hero-link">210 412 2132</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-block: var(--s-64) var(--s-32); max-width: 680px; }
+  .intro h1 { font-size: var(--text-h2); margin-block: var(--s-8) var(--s-12); }
+  .intro p { color: var(--tin-700); }
+
+  .quality-grid { display: grid; gap: var(--s-24); padding-block: var(--s-32); }
+  .quality-grid h2 { font-size: var(--text-h3); margin-bottom: var(--s-12); }
+  .quality-grid p { color: var(--tin-700); margin-bottom: var(--s-12); }
+  .provides-card { border: 1px solid var(--tin-200); border-radius: var(--radius-input); padding: var(--s-24); background: var(--olive-100); }
+  .provides-card h3 { font-size: var(--text-h3); margin-bottom: var(--s-12); }
+  .provides-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--s-8); font-size: var(--text-small); }
+
+  .products-section { padding-block: var(--s-32); }
+  .products-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-16);
+    display: grid;
+    gap: var(--s-8);
+  }
+  .products-list li {
+    border: 1px solid var(--tin-200);
+    border-radius: var(--radius-input);
+    padding: var(--s-16);
+    font-weight: 600;
+  }
+
+  .applications-section { padding-block: var(--s-32) var(--s-64); }
+  .applications-grid { display: grid; gap: var(--s-16); margin-top: var(--s-16); }
+  .application-card { border: 1px solid var(--tin-200); border-radius: var(--radius-input); padding: var(--s-24); }
+  .application-card h3 { font-size: var(--text-label); font-weight: 700; margin-bottom: var(--s-8); }
+  .application-card p { color: var(--tin-600); font-size: var(--text-small); }
+
+  .quote-cta { border-top: 1px solid var(--tin-200); padding-block: var(--s-48); max-width: 640px; }
+  .quote-cta h2 { font-size: var(--text-h3); margin-bottom: var(--s-12); }
+  .quote-cta p { color: var(--tin-700); margin-bottom: var(--s-24); }
+  .quote-cta-actions { display: flex; align-items: center; gap: var(--s-24); }
+  .hero-link { font-weight: 600; color: var(--olive-700); }
+
+  @media (width >= 800px) {
+    .quality-grid { grid-template-columns: 1.4fr 1fr; }
+    .products-list { grid-template-columns: repeat(2, 1fr); }
+    .applications-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

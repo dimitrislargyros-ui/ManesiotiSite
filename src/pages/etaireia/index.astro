@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const timeline = [
+  { year: '1919', title: 'Ίδρυση', copy: 'Ο Νίκος Μανεσιώτης ιδρύει την εταιρεία στον Πειραιά. Αρχικές δραστηριότητες: εισαγωγές μπαχαρικών και κασσίτερου.' },
+  { year: '1988', title: 'Ζωοτροφές', copy: 'Η εταιρεία επεκτείνεται στις ζωοτροφές, ανταποκρινόμενη στη ζήτηση της αγοράς των pet shops.' },
+  { year: 'Σήμερα', title: 'Τρίτη γενιά', copy: '1.500 τ.μ. αποθηκευτικών χώρων, καθημερινές παραδόσεις σε Αττική και αποστολές σε όλη την Ελλάδα.' },
+];
+---
+<Layout title="Η εταιρεία" description="Από το 1919 στον Πειραιά — εισαγωγές και χονδρεμπόριο από γενιά σε γενιά.">
+  <section class="intro container">
+    <h1 class="reveal">Η εταιρεία</h1>
+    <p class="reveal">Από το 1919 στον Πειραιά — εισαγωγές και χονδρεμπόριο από γενιά σε γενιά.</p>
+  </section>
+
+  <section class="container story">
+    <p class="eyebrow reveal">Τρεις γενιές, ένας σκοπός</p>
+    <p class="story-copy reveal">
+      Ο Νίκος Μανεσιώτης ξεκίνησε το 1919 στον Πειραιά με εισαγωγές μπαχαρικών και κασσίτερου. Η εταιρεία μεγάλωσε
+      μαζί με τον Πειραιά — ένα από τα μεγαλύτερα εμπορικά λιμάνια της Μεσογείου.
+    </p>
+    <p class="story-copy reveal">
+      Σήμερα η τρίτη γενιά της οικογένειας διευθύνει αποθήκες 1.500 τ.μ. και εξυπηρετεί εκατοντάδες επιχειρήσεις σε
+      όλη την Ελλάδα. Από το 1988 η εταιρεία ασχολείται και με ζωοτροφές, που αποτελούν σήμερα τον κύριο κλάδο
+      δραστηριότητας.
+    </p>
+    <p class="story-copy reveal">
+      Η έδρα μας στην Αδριανού 11 στον Πειραιά εξυπηρετεί επαγγελματίες αγοραστές — pet shops, καταστήματα,
+      βιομηχανίες και τεχνικά επαγγέλματα.
+    </p>
+  </section>
+
+  <section class="container timeline-section">
+    <p class="eyebrow reveal">Χρονολόγιο</p>
+    <ol class="timeline">
+      {timeline.map((t) => (
+        <li class="timeline-item reveal">
+          <span class="timeline-year">{t.year}</span>
+          <div>
+            <h3>{t.title}</h3>
+            <p>{t.copy}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container contact-cta reveal">
+    <h2>Εδώ και 3 γενιές κοντά στον πελάτη</h2>
+    <p>Επικοινωνήστε μαζί μας</p>
+    <div class="contact-cta-grid">
+      <p>Αδριανού 11, Πειραιάς</p>
+      <p>Τηλ. παραγγελιών: <a href="tel:+302104122132">210 412 2132</a></p>
+      <p>Γενικά: <a href="tel:+302104175068">210 417 5068</a></p>
+      <p>Κινητό: <a href="tel:+306981904679">698 190 46 79</a></p>
+      <p>Email: <a href="mailto:info@manesiotis.gr">info@manesiotis.gr</a></p>
+    </div>
+    <a href="/paraggelia/" class="btn btn-primary">Παραγγελία</a>
+  </section>
+</Layout>
+
+<style>
+  .intro { padding-block: var(--s-64) var(--s-32); max-width: 680px; }
+  .intro h1 { font-size: var(--text-h2); margin-bottom: var(--s-12); }
+  .intro p { color: var(--tin-700); }
+
+  .story { padding-block: var(--s-32); max-width: 720px; }
+  .story-copy { color: var(--tin-700); margin-bottom: var(--s-16); }
+
+  .timeline-section { padding-block: var(--s-48) var(--s-64); }
+  .timeline { list-style: none; padding: 0; margin-top: var(--s-24); display: flex; flex-direction: column; gap: var(--s-24); }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: var(--s-16);
+    padding-bottom: var(--s-24);
+    border-bottom: 1px solid var(--tin-200);
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-year { font-family: var(--font-display); font-weight: 700; color: var(--olive-700); font-size: 1.25rem; }
+  .timeline-item h3 { font-size: var(--text-h3); margin-bottom: var(--s-8); }
+  .timeline-item p { color: var(--tin-600); font-size: var(--text-small); }
+
+  .contact-cta {
+    border-top: 1px solid var(--tin-200);
+    padding-block: var(--s-48) var(--s-64);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+    align-items: flex-start;
+  }
+  .contact-cta h2 { font-size: var(--text-h3); }
+  .contact-cta-grid { display: grid; gap: var(--s-8); font-size: var(--text-small); color: var(--tin-700); }
+  .contact-cta-grid a:hover { color: var(--olive-700); }
+</style>
