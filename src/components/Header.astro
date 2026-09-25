@@ -45,7 +45,10 @@ const productLinks = [
     </nav>
 
     <div class="header-actions">
-      <a href="/paraggelia/" class="btn btn-primary">Παραγγελία</a>
+      <a href="/paraggelia/" class="btn btn-primary">
+        Παραγγελία
+        <span class="cart-badge" data-cart-badge hidden>0</span>
+      </a>
       <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" data-mobile-trigger>
         <span class="visually-hidden">Μενού</span>
         <svg width="20" height="14" viewBox="0 0 20 14" fill="none" aria-hidden="true"><path d="M0 1h20M0 7h20M0 13h20" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -60,7 +63,10 @@ const productLinks = [
       <a href={p.href} class="nav-mobile-sub">{p.title}</a>
     ))}
     <a href="/epikoinonia/">Επικοινωνία</a>
-    <a href="/paraggelia/" class="btn btn-primary nav-mobile-cta">Παραγγελία</a>
+    <a href="/paraggelia/" class="btn btn-primary nav-mobile-cta">
+      Παραγγελία
+      <span class="cart-badge" data-cart-badge hidden>0</span>
+    </a>
   </div>
 </header>
 
@@ -173,6 +179,22 @@ const productLinks = [
   .header-actions { display: flex; align-items: center; gap: var(--s-16); }
   .header-actions .btn-primary { display: none; }
 
+  .cart-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding-inline: 4px;
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--olive-800);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .nav-mobile-cta .cart-badge { background: rgba(245, 246, 243, 0.9); }
+
   .nav-toggle {
     display: inline-flex;
     background: none;
@@ -201,6 +223,22 @@ const productLinks = [
 </style>
 
 <script>
+  import { getCartCount, CART_EVENT } from '../lib/cart';
+
+  const cartBadges = Array.from(document.querySelectorAll<HTMLElement>('[data-cart-badge]'));
+
+  function syncCartBadges() {
+    const count = getCartCount();
+    for (const badge of cartBadges) {
+      badge.hidden = count === 0;
+      badge.textContent = String(count);
+    }
+  }
+
+  syncCartBadges();
+  window.addEventListener(CART_EVENT, syncCartBadges);
+  window.addEventListener('storage', syncCartBadges);
+
   const trigger = document.querySelector('[data-menu-trigger]');
   const menu = document.querySelector('[data-menu]');
   trigger?.addEventListener('click', () => {

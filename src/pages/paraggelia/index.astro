@@ -179,6 +179,7 @@ import Layout from '../../layouts/Layout.astro';
 
 <script>
   import { products } from '../../data/zootrofes-products';
+  import { getCart, addToCart, removeFromCart, clearCart, CART_EVENT } from '../../lib/cart';
 
   const searchInput = document.querySelector<HTMLInputElement>('[data-product-search]');
   const resultsList = document.querySelector<HTMLElement>('[data-search-results]');
@@ -187,26 +188,11 @@ import Layout from '../../layouts/Layout.astro';
   const form = document.querySelector<HTMLFormElement>('[data-order-form]');
   const successPanel = document.querySelector<HTMLElement>('[data-success]');
 
-  const STORAGE_KEY = 'manesiotis_order_products';
-  let selected: { code: string; name: string }[] = [];
-
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) selected = JSON.parse(raw);
-  } catch {
-    selected = [];
-  }
-
-  function persist() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(selected));
-    } catch {
-      /* localStorage unavailable (private browsing) — selection stays in-memory only */
-    }
-  }
-
+  // Selection lives in the shared cart store (src/lib/cart.ts) so products
+  // added from the catalog page (/proionta/zootrofes/) show up here too.
   function renderSelected() {
     if (!selectedList || !selectedEmpty) return;
+    const selected = getCart();
     selectedList.innerHTML = '';
     selectedEmpty.hidden = selected.length > 0;
     for (const item of selected) {
@@ -217,14 +203,14 @@ import Layout from '../../layouts/Layout.astro';
       btn.setAttribute('aria-label', `Αφαίρεση ${item.name}`);
       btn.innerHTML = '×';
       btn.addEventListener('click', () => {
-        selected = selected.filter((p) => p.code !== item.code);
-        persist();
-        renderSelected();
+        removeFromCart(item.code);
       });
       li.appendChild(btn);
       selectedList.appendChild(li);
     }
   }
+
+  window.addEventListener(CART_EVENT, renderSelected);
 
   searchInput?.addEventListener('input', () => {
     const term = searchInput.value.trim().toLowerCase();
@@ -243,11 +229,7 @@ import Layout from '../../layouts/Layout.astro';
       const li = document.createElement('li');
       li.textContent = p.brand ? `${p.name} — ${p.brand}` : p.name;
       li.addEventListener('click', () => {
-        if (!selected.some((s) => s.code === p.code)) {
-          selected.push({ code: p.code, name: p.name });
-          persist();
-          renderSelected();
-        }
+        addToCart({ code: p.code, name: p.name, brand: p.brand });
         searchInput.value = '';
         resultsList.hidden = true;
         resultsList.innerHTML = '';
@@ -260,9 +242,8 @@ import Layout from '../../layouts/Layout.astro';
     e.preventDefault();
     // No backend endpoint exists yet for this form — wire up a real submission
     // handler (API route / email service) before launch. For now this just
-    // shows the confirmation state and clears the locally-stored selection.
-    selected = [];
-    persist();
+    // shows the confirmation state and clears the shared cart.
+    clearCart();
     form.hidden = true;
     if (successPanel) successPanel.hidden = false;
   });

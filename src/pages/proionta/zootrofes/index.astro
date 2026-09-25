@@ -123,6 +123,18 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
             <div class="product-body">
               {p.brand && <p class="product-brand">{p.brand}</p>}
               <p class="product-name">{p.name}</p>
+              <button
+                type="button"
+                class="cart-toggle"
+                data-cart-toggle
+                data-code={p.code}
+                data-name={p.name}
+                data-brand={p.brand ?? ''}
+              >
+                <svg class="icon-add" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <svg class="icon-added" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3.5 3.5L13 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="cart-toggle-label">Προσθήκη</span>
+              </button>
             </div>
           </article>
         ))}
@@ -278,6 +290,34 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
   }
   .product-name { font-size: var(--text-label); line-height: 1.35; }
 
+  .cart-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-8);
+    width: 100%;
+    margin-top: var(--s-12);
+    padding: var(--s-8) var(--s-12);
+    border: 1px solid var(--tin-300);
+    border-radius: var(--radius-button);
+    background: transparent;
+    color: var(--ink);
+    font-size: var(--text-small);
+    font-weight: 600;
+    transition: background-color var(--duration-hover) var(--ease-out),
+      border-color var(--duration-hover) var(--ease-out),
+      color var(--duration-hover) var(--ease-out);
+  }
+  .cart-toggle:hover { border-color: var(--olive-700); color: var(--olive-700); }
+  .cart-toggle .icon-added { display: none; }
+  .cart-toggle[data-in-cart] {
+    background: var(--olive-100);
+    border-color: var(--olive-100);
+    color: var(--olive-800);
+  }
+  .cart-toggle[data-in-cart] .icon-add { display: none; }
+  .cart-toggle[data-in-cart] .icon-added { display: block; }
+
   /* Filters panel: static sidebar on desktop, off-canvas drawer on mobile */
   .filters-panel {
     background: var(--surface);
@@ -412,6 +452,8 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
 </style>
 
 <script>
+  import { isInCart, toggleCart, CART_EVENT } from '../../../lib/cart';
+
   type Facet = 'brand' | 'animal' | 'size';
 
   const grid = document.querySelector<HTMLElement>('[data-product-grid]');
@@ -597,6 +639,31 @@ const sizeCount = (s: PackageSize) => products.filter((p) => p.packageSize === s
   filtersOpenBtn?.addEventListener('click', openFilters);
   filtersCloseBtn?.addEventListener('click', closeFilters);
   filtersOverlay?.addEventListener('click', closeFilters);
+
+  const cartButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-cart-toggle]'));
+
+  function syncCartButton(btn: HTMLButtonElement) {
+    const inCart = isInCart(btn.dataset.code ?? '');
+    btn.toggleAttribute('data-in-cart', inCart);
+    const label = btn.querySelector('.cart-toggle-label');
+    if (label) label.textContent = inCart ? 'Προστέθηκε' : 'Προσθήκη';
+  }
+
+  for (const btn of cartButtons) {
+    syncCartButton(btn);
+    btn.addEventListener('click', () => {
+      toggleCart({
+        code: btn.dataset.code ?? '',
+        name: btn.dataset.name ?? '',
+        brand: btn.dataset.brand || null,
+      });
+      syncCartButton(btn);
+    });
+  }
+
+  window.addEventListener(CART_EVENT, () => {
+    for (const btn of cartButtons) syncCartButton(btn);
+  });
 
   render();
 </script>
