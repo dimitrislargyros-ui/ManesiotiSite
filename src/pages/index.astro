@@ -1,5 +1,12 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
 import Layout from '../layouts/Layout.astro';
+
+const logoMarkSvg = fs.readFileSync(
+  path.resolve('src/assets/logo-mark.svg'),
+  'utf-8'
+);
 
 const sectors = [
   { title: 'Ζωοτροφές', tag: 'Για pet shops και χονδρεμπόρους ζωοτροφών', href: '/proionta/zootrofes/', image: '/images/hero/zootrofes.jpg' },
@@ -31,6 +38,7 @@ const stats = [
   <section class="hero">
     <div class="hero-backdrop" aria-hidden="true"></div>
     <div class="container hero-inner">
+      <span class="hero-mark reveal" set:html={logoMarkSvg} />
       <p class="eyebrow reveal">Από το 1919</p>
       <h1 class="hero-title reveal">Εισαγωγές και χονδρεμπόριο <span>από το 1919</span></h1>
       <p class="hero-lede reveal">
@@ -166,6 +174,14 @@ const stats = [
     z-index: -1;
   }
   .hero-inner { max-width: 860px; }
+  .hero-mark {
+    display: block;
+    width: 84px;
+    height: auto;
+    color: var(--olive-700);
+    margin-bottom: var(--s-24);
+  }
+  .hero-mark :global(svg) { display: block; width: 100%; height: auto; }
   .hero-title {
     font-size: var(--text-display);
     letter-spacing: var(--tracking-display);
