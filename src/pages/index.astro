@@ -8,13 +8,13 @@ const sectors = [
 ];
 
 const brands = [
-  { name: 'Teurlings', logo: '/images/brands/teurlings.jpg' },
-  { name: 'Avenal', logo: '/images/brands/avenal.png' },
-  { name: 'Belize', logo: '/images/brands/belize.png' },
-  { name: 'Especial Caza', logo: '/images/brands/especial-caza.jpg' },
-  { name: 'Rokus', logo: '/images/brands/rokus.jpg' },
-  { name: 'Petnature', logo: '/images/brands/petnature.jpg' },
-  { name: 'Woofy', logo: '/images/brands/woofy.jpg' },
+  { name: 'Teurlings', logo: '/images/brands/teurlings.jpg', url: null },
+  { name: 'Avenal', logo: '/images/brands/avenal.png', url: 'https://www.avenal.pt' },
+  { name: 'Belize', logo: '/images/brands/belize.png', url: null },
+  { name: 'Especial Caza', logo: '/images/brands/especial-caza.jpg', url: null },
+  { name: 'Rokus', logo: '/images/brands/rokus.jpg', url: null },
+  { name: 'Petnature', logo: '/images/brands/petnature.jpg', url: null },
+  { name: 'Woofy', logo: '/images/brands/woofy.jpg', url: null },
 ];
 
 const stats = [
@@ -76,7 +76,13 @@ const stats = [
     <ul class="brands-list reveal">
       {brands.map((b) => (
         <li>
-          <img src={b.logo} alt={b.name} loading="lazy" />
+          {b.url ? (
+            <a href={b.url} target="_blank" rel="noopener noreferrer" aria-label={`${b.name} — επίσημος ιστότοπος`}>
+              <img src={b.logo} alt={b.name} loading="lazy" />
+            </a>
+          ) : (
+            <img src={b.logo} alt={b.name} loading="lazy" />
+          )}
         </li>
       ))}
     </ul>
