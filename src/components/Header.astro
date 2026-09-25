@@ -8,7 +8,7 @@ const productLinks = [
 <header class="site-header" data-astro-header>
   <div class="container header-row">
     <a href="/" class="brand">
-      <span class="brand-name">Μανεσιώτης</span>
+      <img src="/images/logo.png" alt="Μανεσιώτης" class="brand-logo" width="499" height="199" />
       <span class="brand-eyebrow">Από το 1919</span>
     </a>
 
@@ -73,10 +73,10 @@ const productLinks = [
     flex-direction: column;
     line-height: 1.1;
   }
-  .brand-name {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.375rem;
+  .brand-logo {
+    display: block;
+    height: 32px;
+    width: auto;
   }
   .brand-eyebrow {
     font-size: 0.6875rem;

@@ -2,12 +2,20 @@
 import Layout from '../layouts/Layout.astro';
 
 const sectors = [
-  { title: 'Ζωοτροφές', tag: 'Για pet shops και χονδρεμπόρους ζωοτροφών', href: '/proionta/zootrofes/' },
-  { title: 'Μπαχαρικά', tag: 'Για βιομηχανίες τροφίμων και συσκευαστήρια', href: '/proionta/mpaxarika/' },
-  { title: 'Κασσίτερος – Μόλυβδος', tag: 'Για βιομηχανίες, χυτήρια και μηχανουργεία', href: '/proionta/kassiteros/' },
+  { title: 'Ζωοτροφές', tag: 'Για pet shops και χονδρεμπόρους ζωοτροφών', href: '/proionta/zootrofes/', image: '/images/hero/zootrofes.jpg' },
+  { title: 'Μπαχαρικά', tag: 'Για βιομηχανίες τροφίμων και συσκευαστήρια', href: '/proionta/mpaxarika/', image: '/images/hero/mpaxarika.jpg' },
+  { title: 'Κασσίτερος – Μόλυβδος', tag: 'Για βιομηχανίες, χυτήρια και μηχανουργεία', href: '/proionta/kassiteros/', image: '/images/hero/kassiteros.jpg' },
 ];
 
-const brands = ['Teurlings', 'Avenal', 'Belize', 'Especial Caza', 'Rokus', 'Petnature', 'Woofy'];
+const brands = [
+  { name: 'Teurlings', logo: '/images/brands/teurlings.jpg' },
+  { name: 'Avenal', logo: '/images/brands/avenal.png' },
+  { name: 'Belize', logo: '/images/brands/belize.png' },
+  { name: 'Especial Caza', logo: '/images/brands/especial-caza.jpg' },
+  { name: 'Rokus', logo: '/images/brands/rokus.jpg' },
+  { name: 'Petnature', logo: '/images/brands/petnature.jpg' },
+  { name: 'Woofy', logo: '/images/brands/woofy.jpg' },
+];
 
 const stats = [
   { value: 1919, suffix: '', label: 'Έτος ίδρυσης' },
@@ -52,8 +60,11 @@ const stats = [
     <div class="sectors-grid">
       {sectors.map((s) => (
         <a href={s.href} class="sector-card reveal">
-          <h3>{s.title}</h3>
-          <p>{s.tag}</p>
+          <img src={s.image} alt="" class="sector-photo" loading="lazy" width="400" height="300" />
+          <div class="sector-card-body">
+            <h3>{s.title}</h3>
+            <p>{s.tag}</p>
+          </div>
           <span class="sector-arrow" aria-hidden="true">→</span>
         </a>
       ))}
@@ -63,22 +74,29 @@ const stats = [
   <section class="brands container">
     <p class="eyebrow reveal">Brands που διανέμουμε</p>
     <ul class="brands-list reveal">
-      {brands.map((b) => <li>{b}</li>)}
+      {brands.map((b) => (
+        <li>
+          <img src={b.logo} alt={b.name} loading="lazy" />
+        </li>
+      ))}
     </ul>
   </section>
 
   <section class="history container">
     <div class="history-grid">
-      <div class="reveal">
-        <p class="eyebrow">Από το 1919</p>
-        <h2>Τρεις γενιές, ένας σκοπός</h2>
+      <img src="/images/company/history.jpg" alt="Ν. Θ. Μανεσιώτης & Υιός — ιστορική φωτογραφία" class="history-photo reveal" loading="lazy" width="700" height="338" />
+      <div class="history-text">
+        <div class="reveal">
+          <p class="eyebrow">Από το 1919</p>
+          <h2>Τρεις γενιές, ένας σκοπός</h2>
+        </div>
+        <p class="history-copy reveal">
+          Ο Νίκος Μανεσιώτης ίδρυσε την εταιρεία στον Πειραιά το 1919, με μπαχαρικά και κασσίτερο. Σήμερα η τρίτη
+          γενιά της οικογένειας διευθύνει αποθήκες 1.500 τ.μ. Από το 1988 η εταιρεία ασχολείται και με ζωοτροφές,
+          εξυπηρετώντας pet shops και καταστήματα σε όλη την Ελλάδα.
+        </p>
+        <a href="/etaireia/" class="hero-link reveal">Η ιστορία μας <span aria-hidden="true">→</span></a>
       </div>
-      <p class="history-copy reveal">
-        Ο Νίκος Μανεσιώτης ίδρυσε την εταιρεία στον Πειραιά το 1919, με μπαχαρικά και κασσίτερο. Σήμερα η τρίτη
-        γενιά της οικογένειας διευθύνει αποθήκες 1.500 τ.μ. Από το 1988 η εταιρεία ασχολείται και με ζωοτροφές,
-        εξυπηρετώντας pet shops και καταστήματα σε όλη την Ελλάδα.
-      </p>
-      <a href="/etaireia/" class="hero-link reveal">Η ιστορία μας <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
@@ -171,19 +189,36 @@ const stats = [
   }
   .sector-card {
     position: relative;
+    overflow: hidden;
     border: 1px solid var(--tin-200);
     border-radius: var(--radius-input);
-    padding: var(--s-32) var(--s-24);
-    transition: border-color var(--duration-hover) var(--ease-out), background-color var(--duration-hover) var(--ease-out);
+    transition: border-color var(--duration-hover) var(--ease-out);
   }
-  .sector-card:hover { border-color: var(--olive-700); background: var(--olive-100); }
+  .sector-card:hover { border-color: var(--olive-700); }
+  .sector-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform var(--duration-focal) var(--ease-out);
+  }
+  .sector-card:hover .sector-photo { transform: scale(1.04); }
+  .sector-card-body { padding: var(--s-24); }
   .sector-card h3 { font-size: var(--text-h3); margin-bottom: var(--s-8); }
   .sector-card p { color: var(--tin-600); font-size: var(--text-small); max-width: 34ch; }
   .sector-arrow {
     position: absolute;
-    top: var(--s-24);
-    right: var(--s-24);
+    top: var(--s-16);
+    right: var(--s-16);
     font-size: 1.25rem;
+    color: var(--paper);
+    background: rgba(22, 26, 18, 0.45);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: transform var(--duration-hover) var(--ease-out);
   }
   .sector-card:hover .sector-arrow { transform: translateX(4px); }
@@ -192,17 +227,33 @@ const stats = [
   .brands-list {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--s-32);
+    align-items: center;
+    gap: var(--s-40);
     list-style: none;
     padding: 0;
     margin-top: var(--s-24);
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    color: var(--tin-500);
   }
+  .brands-list img {
+    display: block;
+    height: 36px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.7;
+    transition: filter var(--duration-hover) var(--ease-out), opacity var(--duration-hover) var(--ease-out);
+  }
+  .brands-list img:hover { filter: grayscale(0); opacity: 1; }
 
   .history { padding-block: var(--s-64); }
-  .history-grid { display: grid; gap: var(--s-16); max-width: 760px; }
+  .history-grid { display: grid; gap: var(--s-32); }
+  .history-photo {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-input);
+    object-fit: cover;
+  }
+  .history-text { display: grid; gap: var(--s-16); max-width: 760px; }
   .history-grid h2 { font-size: var(--text-h2); margin-top: var(--s-8); }
   .history-copy { color: var(--tin-700); }
 
@@ -221,6 +272,7 @@ const stats = [
   @media (width >= 700px) {
     .sectors-grid { grid-template-columns: repeat(3, 1fr); }
     .how-grid { grid-template-columns: repeat(2, 1fr); }
+    .history-grid { grid-template-columns: 1fr 1fr; align-items: center; }
   }
   @media (width >= 640px) {
     .stats-grid { grid-template-columns: repeat(4, 1fr); }

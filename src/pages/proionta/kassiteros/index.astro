@@ -26,12 +26,17 @@ const applications = [
 ---
 <Layout title="Κασσίτερος – Μόλυβδος – Κολλήσεις" description="Πρωτόχυτα μέταλλα από αναγνωρισμένες πηγές, με πιστοποιητικά χημικής ανάλυσης και γνησιότητας. Για βιομηχανίες, χυτήρια και μηχανουργεία.">
   <section class="intro container">
-    <p class="eyebrow reveal">Προϊόντα</p>
-    <h1 class="reveal">Κασσίτερος – Μόλυβδος – Κολλήσεις</h1>
-    <p class="reveal">
-      Πρωτόχυτα μέταλλα από αναγνωρισμένες πηγές. Κάθε παρτίδα συνοδεύεται από πιστοποιητικό χημικής ανάλυσης και
-      πιστοποιητικό γνησιότητας.
-    </p>
+    <div class="intro-grid">
+      <div class="reveal">
+        <p class="eyebrow">Προϊόντα</p>
+        <h1>Κασσίτερος – Μόλυβδος – Κολλήσεις</h1>
+        <p>
+          Πρωτόχυτα μέταλλα από αναγνωρισμένες πηγές. Κάθε παρτίδα συνοδεύεται από πιστοποιητικό χημικής ανάλυσης
+          και πιστοποιητικό γνησιότητας.
+        </p>
+      </div>
+      <img src="/images/kassiteros/xelona-bar.jpg" alt="Χελώνες και βέργες κασσιτέρου" class="intro-photo reveal" loading="lazy" width="700" height="700" />
+    </div>
   </section>
 
   <section class="container quality-grid">
@@ -87,9 +92,11 @@ const applications = [
 </Layout>
 
 <style>
-  .intro { padding-block: var(--s-64) var(--s-32); max-width: 680px; }
+  .intro { padding-block: var(--s-64) var(--s-32); }
+  .intro-grid { display: grid; gap: var(--s-32); max-width: 1000px; }
   .intro h1 { font-size: var(--text-h2); margin-block: var(--s-8) var(--s-12); }
   .intro p { color: var(--tin-700); }
+  .intro-photo { width: 100%; height: auto; border-radius: var(--radius-input); object-fit: cover; aspect-ratio: 1; }
 
   .quality-grid { display: grid; gap: var(--s-24); padding-block: var(--s-32); }
   .quality-grid h2 { font-size: var(--text-h3); margin-bottom: var(--s-12); }
@@ -125,6 +132,9 @@ const applications = [
   .quote-cta-actions { display: flex; align-items: center; gap: var(--s-24); }
   .hero-link { font-weight: 600; color: var(--olive-700); }
 
+  @media (width >= 700px) {
+    .intro-grid { grid-template-columns: 1fr 1fr; align-items: center; }
+  }
   @media (width >= 800px) {
     .quality-grid { grid-template-columns: 1.4fr 1fr; }
     .products-list { grid-template-columns: repeat(2, 1fr); }
