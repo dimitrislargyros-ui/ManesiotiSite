@@ -84,7 +84,24 @@ const stats = [
 
   <section class="history container">
     <div class="history-grid">
-      <img src="/images/company/history.jpg" alt="Ν. Θ. Μανεσιώτης & Υιός — ιστορική φωτογραφία" class="history-photo reveal" loading="lazy" width="700" height="338" />
+      <div class="history-photos reveal">
+        <img
+          src="/images/company/building.jpg"
+          alt="Η αποθήκη μας στην Αδριανού 11, Πειραιάς, με την επιγραφή Ν.Θ. Μανεσιώτης &amp; Υιός Α.Ε."
+          class="history-photo-main"
+          loading="lazy"
+          width="700"
+          height="525"
+        />
+        <img
+          src="/images/company/vintage.png"
+          alt="Ιστορική φωτογραφία του αρχικού καταστήματος, «Εν τη εργασία η νίκη»"
+          class="history-photo-vintage"
+          loading="lazy"
+          width="241"
+          height="300"
+        />
+      </div>
       <div class="history-text">
         <div class="reveal">
           <p class="eyebrow">Από το 1919</p>
@@ -235,9 +252,9 @@ const stats = [
   }
   .brands-list img {
     display: block;
-    height: 36px;
+    height: 64px;
     width: auto;
-    max-width: 140px;
+    max-width: 220px;
     object-fit: contain;
     filter: grayscale(1);
     opacity: 0.7;
@@ -247,11 +264,22 @@ const stats = [
 
   .history { padding-block: var(--s-64); }
   .history-grid { display: grid; gap: var(--s-32); }
-  .history-photo {
+  .history-photos { position: relative; }
+  .history-photo-main {
     width: 100%;
     height: auto;
+    aspect-ratio: 4 / 3;
     border-radius: var(--radius-input);
     object-fit: cover;
+  }
+  .history-photo-vintage {
+    display: none;
+    position: absolute;
+    bottom: calc(-1 * var(--s-24));
+    left: calc(-1 * var(--s-24));
+    width: 128px;
+    height: auto;
+    box-shadow: 0 16px 32px rgba(22, 26, 18, 0.28);
   }
   .history-text { display: grid; gap: var(--s-16); max-width: 760px; }
   .history-grid h2 { font-size: var(--text-h2); margin-top: var(--s-8); }
@@ -273,6 +301,7 @@ const stats = [
     .sectors-grid { grid-template-columns: repeat(3, 1fr); }
     .how-grid { grid-template-columns: repeat(2, 1fr); }
     .history-grid { grid-template-columns: 1fr 1fr; align-items: center; }
+    .history-photo-vintage { display: block; }
   }
   @media (width >= 640px) {
     .stats-grid { grid-template-columns: repeat(4, 1fr); }
