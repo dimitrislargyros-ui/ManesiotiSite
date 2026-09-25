@@ -1,6 +1,16 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const logoMarkSvg = fs.readFileSync(
+  path.resolve('src/assets/logo-mark.svg'),
+  'utf-8'
+);
+---
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
+      <span class="footer-mark" set:html={logoMarkSvg} />
       <p class="footer-company">Ν. Θ. Μανεσιώτης &amp; Υιός Α.Ε.</p>
       <p class="footer-tag">Εισαγωγές – Χονδρικό εμπόριο</p>
       <p>Αδριανού 11, Πειραιάς</p>
@@ -50,6 +60,14 @@
     padding-bottom: var(--s-48);
     border-bottom: 1px solid rgba(245, 246, 243, 0.14);
   }
+  .footer-mark {
+    display: block;
+    width: 40px;
+    height: auto;
+    color: var(--paper);
+    margin-bottom: var(--s-12);
+  }
+  .footer-mark :global(svg) { display: block; width: 100%; height: auto; }
   .footer-company { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; }
   .footer-tag { color: rgba(245, 246, 243, 0.6); font-size: var(--text-small); margin-bottom: var(--s-12); }
   .footer-brand p { margin-bottom: var(--s-4); font-size: var(--text-small); color: rgba(245, 246, 243, 0.85); }

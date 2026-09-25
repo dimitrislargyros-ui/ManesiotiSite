@@ -1,4 +1,12 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const logoMarkSvg = fs.readFileSync(
+  path.resolve('src/assets/logo-mark.svg'),
+  'utf-8'
+);
+
 const productLinks = [
   { href: '/proionta/zootrofes/', title: 'Ζωοτροφές', tag: 'Για σκύλους, γάτες, πτηνά και τρωκτικά' },
   { href: '/proionta/mpaxarika/', title: 'Μπαχαρικά', tag: 'Χονδρική σε επαγγελματίες' },
@@ -7,9 +15,12 @@ const productLinks = [
 ---
 <header class="site-header" data-astro-header>
   <div class="container header-row">
-    <a href="/" class="brand">
-      <img src="/images/logo.png" alt="Μανεσιώτης" class="brand-logo" width="499" height="199" />
-      <span class="brand-eyebrow">Από το 1919</span>
+    <a href="/" class="brand" aria-label="Μανεσιώτης – Αρχική σελίδα">
+      <span class="brand-mark" set:html={logoMarkSvg} />
+      <span class="brand-word">
+        <span class="brand-name">Μανεσιώτης</span>
+        <span class="brand-eyebrow">Από το 1919</span>
+      </span>
     </a>
 
     <nav class="nav-desktop" aria-label="Κύρια πλοήγηση">
@@ -70,13 +81,32 @@ const productLinks = [
   }
   .brand {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: var(--s-12);
     line-height: 1.1;
+    color: var(--ink);
   }
-  .brand-logo {
+  .brand-mark {
     display: block;
-    height: 32px;
-    width: auto;
+    flex-shrink: 0;
+    width: 34px;
+    height: auto;
+    color: var(--olive-700);
+  }
+  .brand-mark :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .brand-word {
+    display: flex;
+    flex-direction: column;
+  }
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.0625rem;
+    letter-spacing: 0.01em;
   }
   .brand-eyebrow {
     font-size: 0.6875rem;
